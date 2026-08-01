@@ -1,0 +1,12 @@
+# Archived market data — large, regenerable/forward-only, not source
+data/
+
+# Nightly run log — pure noise, no version-control value
+logs/
+
+# Local, machine-specific Claude Code settings (tool permission allowlist)
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.pyc
