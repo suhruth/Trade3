@@ -21,6 +21,12 @@ mechanical chart-pattern recognition). Per the model's own missing-data rule
 over only the criteria/stages actually measured, and carries a stages_covered
 + score_conf confidence flag so a thin score is never mistaken for a strong one.
 
+RVOL and 3-month-momentum are percentile-ranked against every LIQUID NSE EQ
+symbol (median 20-day traded value > build_monthly.LIQUID_CR), not just the
+watchlist — per CLAUDE.md's own invariant ("ranked by percentile across the
+whole scanned universe"), so a mover outside the watchlist's 45 names can
+still be reflected via a watchlist stock's rank against the real population.
+
 Pipeline position (third stage, after both of these have run this month):
     rank_sectors.py  -->  build_monthly.py  -->  rank_stocks.py
 Reads that month's sectors.csv (stage2_pts/quadrant) and universe.csv
@@ -48,12 +54,12 @@ from pathlib import Path
 
 from rank_sectors import (
     SECTORS, BENCHMARK, LOOKBACK_3M, RS_LOOKBACK, RS_AVG,
-    rs_line, rs_metrics, pct_off_high, month_dirname,
+    rs_line, rs_metrics, pct_off_high, pct_return, month_dirname,
     sorted_index_files,
 )
 from rank_sectors import C_NAME as IDX_C_NAME, C_CLOSE as IDX_C_CLOSE
 from build_monthly import (
-    REPO, JOURNAL, UNIVERSE_TEMPLATE,
+    REPO, JOURNAL, UNIVERSE_TEMPLATE, LIQUID_CR, TURN_WINDOW,
     sorted_bhavcopies, load_watchlist, merge_universe,
 )
 
@@ -87,6 +93,11 @@ SHORTLIST_QUADRANTS = ("Leading", "Improving")
 # availability gate (RS_AVG's own moving average + RS_LOOKBACK's back-reference).
 MIN_SESSIONS = RS_AVG + RS_LOOKBACK + 1
 READ_FILES = LOOKBACK_52W + 3   # read enough that the 52w criterion self-activates
+
+# RVOL/momentum percentile pool: every liquid NSE EQ symbol, not just the
+# watchlist (CLAUDE.md: "ranked by percentile across the whole scanned
+# universe"). Only needs a 3-month window (RS/52w history is watchlist-only).
+UNIVERSE_READ_FILES = LOOKBACK_3M + 2
 
 # Watchlist sector labels known to have no NSE sectoral index at all — only
 # changes the warning's wording (typo vs. genuinely untracked), never behaviour.
@@ -247,6 +258,64 @@ def read_universe(path: Path):
                 r3 = None
             out[sym] = {"ret_3m_pct": r3, "liquid": (row.get("liquid") or "").strip()}
     return out
+
+
+def read_universe_pool(paths):
+    """Read every EQ symbol's close/volume/turnover from bhavcopy (unfiltered,
+    unlike read_ohlcv's watchlist-only scope) -- the raw material for the
+    RVOL/momentum percentile POPULATION. No dates/high/low/deliv needed here
+    (no RS alignment, no 52-week test at this scope), so this is far cheaper
+    per-symbol than read_ohlcv despite covering ~2000 symbols instead of ~45."""
+    closes, vols, turns = {}, {}, {}
+    for path in paths:
+        with open(path, newline="", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            next(reader, None)
+            seen = set()
+            for row in reader:
+                if len(row) <= C_TURNOVER:
+                    continue
+                if row[C_SERIES].strip() != "EQ":
+                    continue
+                sym = row[C_SYMBOL].strip()
+                if sym in seen:
+                    continue
+                seen.add(sym)
+                try:
+                    close = float(row[C_CLOSE])
+                    vol = float(row[C_VOLUME])
+                    turn = float(row[C_TURNOVER]) / 100.0  # lakh -> crore
+                except ValueError:
+                    continue
+                closes.setdefault(sym, []).append(close)
+                vols.setdefault(sym, []).append(vol)
+                turns.setdefault(sym, []).append(turn)
+    return closes, vols, turns
+
+
+def build_universe_pool(paths):
+    """RVOL and 3-month-momentum values for every LIQUID NSE EQ symbol (median
+    20-day traded value > LIQUID_CR, the same gate build_monthly.py uses) --
+    the percentile-ranking population. Illiquid names are excluded from the
+    pool so "top 5%" stays a meaningful bar rather than trivial to clear among
+    thousands of thinly-traded tickers. Returns (rvol_pool, mom_pool,
+    total_scanned, liquid_n) -- the last two are for the coverage report."""
+    closes, vols, turns = read_universe_pool(paths)
+    rvol_pool, mom_pool, liquid_n = {}, {}, 0
+    for sym, vol in vols.items():
+        tvals = turns.get(sym, [])[-TURN_WINDOW:]
+        if not tvals or statistics.median(tvals) <= LIQUID_CR:
+            continue
+        liquid_n += 1
+        if len(vol) >= RVOL_WINDOW + 1:
+            prior = vol[-(RVOL_WINDOW + 1):-1]
+            avg = statistics.fmean(prior)
+            if avg:
+                rvol_pool[sym] = round(vol[-1] / avg, 2)
+        r3 = pct_return(closes.get(sym, []), LOOKBACK_3M)
+        if r3 is not None:
+            mom_pool[sym] = r3
+    return rvol_pool, mom_pool, len(vols), liquid_n
 
 
 def rs_against(dates, closes, date_close_map):
@@ -432,7 +501,8 @@ def compose(e2, a2, e5, a5, e6, a6):
             f"{stages_covered}/{V4_TOTAL_STAGES}", conf)
 
 
-def build_rows(watch, bars, idx_dated, sector_table, canon_by_symbol, universe, insufficient):
+def build_rows(watch, bars, idx_dated, sector_table, canon_by_symbol, universe, insufficient,
+                rvol_pool, mom_pool):
     raw5, raw6, mom_values = {}, {}, {}
     nifty_map = idx_dated.get(BENCHMARK, {})
 
@@ -449,9 +519,13 @@ def build_rows(watch, bars, idx_dated, sector_table, canon_by_symbol, universe, 
             mom_values[sym] = r3
 
     rvol_values = {sym: r["rvol"] for sym, r in raw5.items() if r["rvol"] is not None}
-    rvol_pts_by_sym = rank_percentile_points(rvol_values, RVOL_TIERS)
-    mom_pts_by_sym = rank_percentile_points(mom_values, MOM_TIERS)
-    mom_pctile_by_sym = percentile_rank(mom_values)
+    # Rank against the full liquid-universe pool, not just these watchlist
+    # values -- a watchlist stock's own freshly-computed value wins over any
+    # near-duplicate already in the pool (dict union: later keys override).
+    rvol_pts_by_sym = rank_percentile_points({**rvol_pool, **rvol_values}, RVOL_TIERS)
+    combined_mom = {**mom_pool, **mom_values}
+    mom_pts_by_sym = rank_percentile_points(combined_mom, MOM_TIERS)
+    mom_pctile_by_sym = percentile_rank(combined_mom)
 
     scored, any_52w_short = {}, False
     for sym, _ in watch:
@@ -556,7 +630,11 @@ def main() -> int:
               f"(need >= {MIN_SESSIONS} sessions).")
         return 1
 
-    scored, any_52w_short = build_rows(watch, bars, idx_dated, sector_table, canon_by_symbol, universe, insufficient)
+    universe_read = bhav_files[-UNIVERSE_READ_FILES:]
+    rvol_pool, mom_pool, total_scanned, liquid_n = build_universe_pool(universe_read)
+
+    scored, any_52w_short = build_rows(watch, bars, idx_dated, sector_table, canon_by_symbol, universe,
+                                        insufficient, rvol_pool, mom_pool)
     rows = list(scored.values())  # watch order preserved (scored built by iterating watch)
     # Every watchlist symbol must survive the merge, even ones we couldn't score
     # (merge_universe only writes rows it's given -- an omitted symbol would
@@ -565,7 +643,10 @@ def main() -> int:
 
     # ---- §1 Data coverage ----
     print(f"As-of bhavcopy: {bhav_read[-1].name}  ({len(bhav_read)} days loaded)")
-    print(f"As-of index:    {idx_read[-1].name}  ({len(idx_read)} days loaded)\n")
+    print(f"As-of index:    {idx_read[-1].name}  ({len(idx_read)} days loaded)")
+    print(f"Liquid-universe pool: {liquid_n}/{total_scanned} NSE EQ symbols pass the "
+          f"₹{LIQUID_CR:.0f} Cr liquidity gate (last {len(universe_read)} sessions) "
+          f"-- RVOL/momentum percentiles ranked against this pool.\n")
     if insufficient:
         print(f"Insufficient history (<{MIN_SESSIONS} sessions), not scored: {', '.join(insufficient)}\n")
 

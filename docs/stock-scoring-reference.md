@@ -40,14 +40,14 @@ score_pts,pts_available,score_100,stages_covered,score_conf
 | `sector_quadrant` | Leading/Improving/Weakening/Lagging or blank | Drives the Buy Watchlist filter (Leading + Improving only) |
 | `stage2_pts` | 0–10 or blank | Copied verbatim from `sectors.csv` — Stage 2 is a pure join, no new math |
 | `rvol` | ratio, 2dp | Today's volume ÷ its own prior-20-day average (excludes today) |
-| `rvol_pts` | 0/2/4/6 | RVOL percentile band across the whole watchlist (not a fixed threshold) |
+| `rvol_pts` | 0/2/4/6 | RVOL percentile band ranked against every **liquid NSE EQ symbol** (not just the watchlist — see below) |
 | `deliv_surge` | ratio, 2dp or blank | Today's `DELIV_PER` ÷ its own prior-20-day average |
 | `vol_persist` | 0–5 or blank | Of the last 5 sessions, how many closed above their own 20-day average volume |
 | `close_range_pct` | 0–100, 1dp or blank | `(close − low) / (high − low) × 100` — where in the day's range it closed |
 | `stage5_pts` | 0–15, 1dp | Stage 5 (Institutional Activity), renormalized over whichever of the above were computable |
 | `rs_nifty` | Y/N or blank | Stock ÷ Nifty50 line positive & rising, at a 3-month RS-line high |
 | `rs_sector` | Y/N or blank | Stock ÷ its sector index line positive & rising — blank when `sector_canon` is blank |
-| `mom_pctile` | 0–100, 1dp | Percentile rank of this stock's `ret_3m_pct` across the watchlist (diagnostic; the tier gate itself uses top-20%) |
+| `mom_pctile` | 0–100, 1dp | Percentile rank of this stock's `ret_3m_pct` against the full liquid-universe pool (diagnostic; the tier gate itself uses top-20%) |
 | `stage6_pts` | 0–15, 1dp | Stage 6 (Relative Strength), renormalized over whichever criteria were computable |
 | `score_pts` | 0–40, 1dp | Sum of the renormalized Stage 2 + 5 + 6 scores |
 | `pts_available` | int, ≤37 today | Total criterion-level points that were actually measurable — the raw confidence number |
@@ -65,7 +65,7 @@ if the sector bridged and has a `sectors.csv` row; unavailable (0) otherwise.
 
 | Criterion | Mechanical test | Pts |
 |---|---|---|
-| RVOL percentile | Ranked across the whole watchlist: top 5%→6, top 10%→4, top 20%→2, else 0 | 6 |
+| RVOL percentile | Ranked against the liquid-universe pool: top 5%→6, top 10%→4, top 20%→2, else 0 | 6 |
 | Delivery surge | `deliv_surge > 1.5` | 4 |
 | Volume persistence | `vol_persist ≥ 3` | 3 |
 | Strong close | `close_range_pct ≥ 75` | 2 |
@@ -77,7 +77,31 @@ if the sector bridged and has a `sectors.csv` row; unavailable (0) otherwise.
 | RS vs Nifty | `rs_nifty == "Y"` | 5 |
 | RS vs own sector | `rs_sector == "Y"` | 4 |
 | 52-week high | New 52-week high, or within 3% of it | 3 |
-| Universe-relative momentum | `ret_3m_pct` in the watchlist's top 20% | 3 |
+| Universe-relative momentum | `ret_3m_pct` in the liquid-universe pool's top 20% | 3 |
+
+## The percentile pool: full liquid NSE universe, not just the watchlist
+
+RVOL and 3-month momentum are the two criteria that compare a stock against
+*other* stocks, not just its own history — and that comparison is now made
+against every liquid NSE EQ symbol scanned in the archive, not only the 45
+watchlist names. `build_universe_pool()` reads every EQ symbol's bhavcopy row
+(no `wanted` filter), applies the same liquidity gate `build_monthly.py`
+already uses (`median 20-day traded value > ₹20 Cr`, `LIQUID_CR`), and computes
+RVOL/3M-return only for symbols that clear it — illiquid names are excluded
+from the pool entirely so "top 5%" stays a meaningful bar instead of something
+any thinly-traded ticker can clear on a quiet day. A watchlist stock's own
+freshly-computed value is merged into that pool before ranking, so its
+`rvol_pts`/`mom_pctile` reflect its real position against the whole liquid
+market — the point of this scope (surfacing a mover you haven't already
+hand-picked, per `CLAUDE.md`'s own "ranked by percentile across the whole
+scanned universe" invariant). The run's console output reports pool size each
+time, e.g. `Liquid-universe pool: 612/2043 NSE EQ symbols pass the ₹20 Cr
+liquidity gate`.
+
+Everything else in this document — the sector bridge, Stage 2/6's `rs_sector`,
+Stage 5's delivery/persistence/close-range criteria, and all renormalization —
+stays scoped to the watchlist exactly as before. Only the two percentile pools
+widened.
 
 ## Renormalization — worked example
 
