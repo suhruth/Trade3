@@ -144,8 +144,10 @@ def build_universe_rows(watch, closes, turns):
     return rows, insufficient
 
 
-def merge_universe(dest: Path, header, computed_rows):
-    """Preserve existing Bucket B cells; overwrite Bucket A; key by symbol; order by watchlist."""
+def merge_universe(dest: Path, header, computed_rows, owned=BUCKET_A, always=("symbol", "sector")):
+    """Preserve existing cells outside `owned`/`always`; overwrite those; key by symbol,
+    order by computed_rows. `always` columns are watchlist-authoritative (e.g. sector);
+    `owned` are this caller's computed columns (Bucket A by default)."""
     existing = {}
     if dest.exists():
         with open(dest, newline="", encoding="utf-8") as f:
@@ -159,10 +161,12 @@ def merge_universe(dest: Path, header, computed_rows):
         if sym in existing:
             for col in header:
                 row[col] = existing[sym].get(col, "") or ""
-        row["symbol"] = sym
-        row["sector"] = comp["sector"]        # watchlist is authoritative for sector
-        for col in BUCKET_A:
-            row[col] = comp[col]
+        for col in always:
+            if col in comp:
+                row[col] = comp[col]
+        for col in owned:
+            if col in comp:
+                row[col] = comp[col]
         out.append(row)
 
     with open(dest, "w", newline="", encoding="utf-8") as f:

@@ -1,2 +1,2 @@
-symbol,sector,mkt_cap_cr,roce_gt15,roe_gt15,sales_gr_gt10,profit_gr_gt10,de_lt0_5,pledge_zero,ocf_positive,stage3_pts,median_trdval_cr,liquid,ret_1m_pct,ret_3m_pct,tier
-ABC,Nifty IT,45000,Y,Y,Y,Y,Y,Y,Y,15,120,Y,6.3,14.2,Priority
+symbol,sector,mkt_cap_cr,roce_gt15,roe_gt15,sales_gr_gt10,profit_gr_gt10,de_lt0_5,pledge_zero,ocf_positive,stage3_pts,median_trdval_cr,liquid,ret_1m_pct,ret_3m_pct,tier,sector_canon,sector_rank,sector_quadrant,stage2_pts,rvol,rvol_pts,deliv_surge,vol_persist,close_range_pct,stage5_pts,rs_nifty,rs_sector,mom_pctile,stage6_pts,score_pts,pts_available,score_100,stages_covered,score_conf
+ABC,Nifty IT,45000,Y,Y,Y,Y,Y,Y,Y,15,120,Y,6.3,14.2,Priority,Nifty IT,3,Leading,10,1.8,4,1.6,3,82.0,12,Y,Y,74.0,12,34.0,37,91.9,3/9,HIGH
