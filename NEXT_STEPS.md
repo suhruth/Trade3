@@ -23,13 +23,14 @@ Building an evening batch pipeline for the v4 institutional swing-scoring model
 ## Backlog (rough order)
 
 1. ~~Sector→stock bridge + stock scoring~~ — **done** (`rank_stocks.py`, Stages 2/5/6 shipped, above). Stages 7/8 (accumulation structure, Zanger patterns — mechanical chart-pattern detection) split out as backlog item 4 below, since they need pattern-recognition logic this repo doesn't have yet, not just more archived data.
-2. **Screener fundamentals merge (Bucket B).** Ingest a Screener export CSV → fill `universe.csv` fundamentals (`mkt_cap_cr`, `roce_gt15`, …) + `stage3_pts`, keyed by symbol, merge-safe like build_monthly/rank_stocks (reuse the parametrized `merge_universe()`). **Blocker:** need the header row of a real Screener export to map columns.
-3. **Weekly template** + its build. Extend `new_month.py`-style scaffolding to `week` subfolders; `rank_sectors.py --out` already targets a weekly path.
-4. **Mechanical pattern detection (Stages 7 & 8)** — Accumulation Structure + Breakout/Entry, Zanger's six patterns (v4 Appendix A). The large deferred piece of the stock-scoring layer; needs its own design pass.
-5. **Daily template** + daily scan (reuses the monthly sector ranking + `rank_stocks.py` output; adds whatever's still daily-only — RVOL/delivery are already Stage 5, so this is mostly Stage 8/9 once patterns exist).
-6. **Earnings/SUE (Stage 4)** — compute EPS/Revenue SUE from Screener quarterly → `earnings.csv`.
-7. **Validate `rank_stocks.py`'s extended bhavcopy column indices** (`HIGH=5, LOW=6, VOLUME=10, DELIV_PER=14`) against one real archived file — inferred from the standard NSE layout, never confirmed against real data (the dev sandbox this was built in has no `data/`). A 10-minute task, do it before trusting a live run's Stage 5 numbers.
-8. **Optional:** parse `ind_close_all` for the §1 Nifty-EMA regime lines (now that the index file is archived, this is close at hand).
+2. **Widen Stage 5/6 percentiles to the full liquid NSE universe.** `rank_stocks.py`'s RVOL and momentum percentiles are currently ranked **within the 45-name watchlist only** (see `docs/stock-scoring-reference.md`) — an accepted interim tradeoff, not the original design intent. The explicit goal (surfacing a mover you haven't already hand-picked) needs percentiles computed against every liquid NSE stock's bhavcopy, matching `CLAUDE.md`'s own stated invariant ("ranked by percentile across the whole scanned universe"). Revisit when ready to widen scope past the watchlist.
+3. **Screener fundamentals merge (Bucket B).** Ingest a Screener export CSV → fill `universe.csv` fundamentals (`mkt_cap_cr`, `roce_gt15`, …) + `stage3_pts`, keyed by symbol, merge-safe like build_monthly/rank_stocks (reuse the parametrized `merge_universe()`). **Blocker:** need the header row of a real Screener export to map columns.
+4. **Weekly template** + its build. Extend `new_month.py`-style scaffolding to `week` subfolders; `rank_sectors.py --out` already targets a weekly path.
+5. **Mechanical pattern detection (Stages 7 & 8)** — Accumulation Structure + Breakout/Entry, Zanger's six patterns (v4 Appendix A). The large deferred piece of the stock-scoring layer; needs its own design pass.
+6. **Daily template** + daily scan (reuses the monthly sector ranking + `rank_stocks.py` output; adds whatever's still daily-only — RVOL/delivery are already Stage 5, so this is mostly Stage 8/9 once patterns exist).
+7. **Earnings/SUE (Stage 4)** — compute EPS/Revenue SUE from Screener quarterly → `earnings.csv`.
+8. ~~Validate `rank_stocks.py`'s extended bhavcopy column indices~~ — **done**, confirmed against a real archived file (`HIGH=5, LOW=6, VOLUME=10, DELIV_PER=14` all correct).
+9. **Optional:** parse `ind_close_all` for the §1 Nifty-EMA regime lines (now that the index file is archived, this is close at hand).
 
 ## To fill July by hand right now (~10 min)
 
