@@ -147,7 +147,39 @@ unavailable):
 Hunt inside `sector_quadrant ∈ {Leading, Improving}` — same rule as
 `sectors.csv` (see `docs/sectors-csv-reference.md`). `rank_stocks.py` prints a
 ranked Buy Watchlist restricted to exactly that filter, sorted by `score_100`,
-top 15. Treat `score_conf = LOW` as "look at this by hand before trusting the
+top 15, and saves the same rows/order to `journal/<month>/shortlist.csv`.
+Treat `score_conf = LOW` as "look at this by hand before trusting the
 number," not as a verdict on the stock. Remember `score_100` is not a full v4
 score — until Stages 1/3/4/7/8/9 exist, it's a projection from whatever subset
 was actually measured that run.
+
+## Beyond the watchlist: `journal/<month>/discoveries.csv`
+
+Every liquid NSE EQ stock — not just the watchlist — is scored on Stages 5/6
+using the same functions above (`canon_by_symbol.get()` naturally returns
+`None` for a non-watchlist symbol, so it flows through exactly like a
+watchlist stock whose sector didn't bridge). But only watchlist stocks have a
+*known* sector, so only they can ever pass the shortlist's Leading/Improving
+gate — a random NSE stock's sector is simply not data this repo has. Rather
+than silently drop a strong-scoring non-watchlist stock, it's written to
+`discoveries.csv` instead: the top 30 by `score_100`, sector unverified.
+
+Two things to know before trusting a row in this file:
+
+- **`score_conf` will always read `LOW` here.** Without a sector, the ceiling
+  is `pts_available ≈ 26` (Stage 5's 15 + Stage 6's RS-vs-Nifty/momentum
+  without the sector-RS criterion) — always below `CONF_MED = 27`. This
+  matches the *existing* behavior for the watchlist's own unmapped-sector
+  stocks (`Cement`, `Nifty Capital Goods`); it isn't a lesser bar for
+  discoveries, just the same bar these stocks can never clear.
+- **Both Stage 5 and Stage 6 must contribute (`stage6_pts` non-blank) to
+  appear at all.** A stock scoring on Stage 5 alone renormalizes to a
+  misleadingly "perfect" `score_100 = 100.0` off a single fully-earned stage
+  — technically correct arithmetic, but not evidence worth acting on. This
+  filter (`stages_covered == 2/9`, the ceiling without a sector) removes that
+  noise; the model invariant itself (renormalize, never score missing as
+  zero) is unchanged.
+
+Treat a `discoveries.csv` row as a lead, not a candidate: research its actual
+sector by hand (and its official index membership, if any) before deciding
+whether it belongs in the watchlist.

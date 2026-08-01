@@ -27,6 +27,14 @@ watchlist — per CLAUDE.md's own invariant ("ranked by percentile across the
 whole scanned universe"), so a mover outside the watchlist's 45 names can
 still be reflected via a watchlist stock's rank against the real population.
 
+Every liquid NSE EQ stock is also scored on Stages 5/6 directly, not just the
+watchlist — but only watchlist stocks have a known sector (bridge_sectors
+resolves watchlist.csv's labels; there's no sector data source for a random
+NSE stock), so only they can pass the shortlist's Leading/Improving gate. A
+non-watchlist stock with a strong score instead lands in discoveries.csv,
+flagged as sector-unverified rather than silently dropped. universe.csv
+(Bucket C) still only ever holds the watchlist's own 45 rows.
+
 Pipeline position (third stage, after both of these have run this month):
     rank_sectors.py  -->  build_monthly.py  -->  rank_stocks.py
 Reads that month's sectors.csv (stage2_pts/quadrant) and universe.csv
@@ -91,6 +99,13 @@ SHORTLIST_QUADRANTS = ("Leading", "Improving")
 SHORTLIST_HEADER = ("symbol", "sector", "quadrant", "score_100",
                      "stage2_pts", "stage5_pts", "stage6_pts",
                      "stages_covered", "score_conf", "liquid")
+
+# Non-watchlist liquid stocks with a strong Stage 5/6 score but no sector
+# mapping (see module docstring / bridge_sectors) -- can't pass the sector
+# gate above, so they get their own file instead of silently vanishing.
+DISCOVERY_N = 30
+DISCOVERY_HEADER = ("symbol", "score_100", "stage5_pts", "stage6_pts",
+                     "stages_covered", "score_conf", "rvol", "deliv_surge", "mom_pctile")
 
 # Minimum sessions to consider a stock scoreable at all, and the RS-criterion
 # availability gate (RS_AVG's own moving average + RS_LOOKBACK's back-reference).
@@ -279,6 +294,22 @@ def write_shortlist(path: Path, shortlist, universe):
             ])
 
 
+def write_discoveries(path: Path, discoveries):
+    """Write the top-scoring non-watchlist liquid stocks -- sector unknown, so
+    they can't pass the shortlist's Leading/Improving gate, but a strong
+    Stage 5/6 score is still worth a manual look (research the sector by
+    hand before acting)."""
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(DISCOVERY_HEADER)
+        for r in discoveries:
+            w.writerow([
+                r["symbol"], r["score_100"], r["stage5_pts"], r["stage6_pts"],
+                r["stages_covered"], r["score_conf"],
+                r["rvol"], r["deliv_surge"], r["mom_pctile"],
+            ])
+
+
 def read_universe_pool(paths):
     """Read every EQ symbol's close/volume/turnover from bhavcopy (unfiltered,
     unlike read_ohlcv's watchlist-only scope) -- the raw material for the
@@ -318,14 +349,15 @@ def build_universe_pool(paths):
     the percentile-ranking population. Illiquid names are excluded from the
     pool so "top 5%" stays a meaningful bar rather than trivial to clear among
     thousands of thinly-traded tickers. Returns (rvol_pool, mom_pool,
-    total_scanned, liquid_n) -- the last two are for the coverage report."""
+    total_scanned, liquid_syms) -- liquid_syms is every symbol that cleared
+    the gate (the full-universe scoring candidate set), len() gives liquid_n."""
     closes, vols, turns = read_universe_pool(paths)
-    rvol_pool, mom_pool, liquid_n = {}, {}, 0
+    rvol_pool, mom_pool, liquid_syms = {}, {}, set()
     for sym, vol in vols.items():
         tvals = turns.get(sym, [])[-TURN_WINDOW:]
         if not tvals or statistics.median(tvals) <= LIQUID_CR:
             continue
-        liquid_n += 1
+        liquid_syms.add(sym)
         if len(vol) >= RVOL_WINDOW + 1:
             prior = vol[-(RVOL_WINDOW + 1):-1]
             avg = statistics.fmean(prior)
@@ -334,7 +366,7 @@ def build_universe_pool(paths):
         r3 = pct_return(closes.get(sym, []), LOOKBACK_3M)
         if r3 is not None:
             mom_pool[sym] = r3
-    return rvol_pool, mom_pool, len(vols), liquid_n
+    return rvol_pool, mom_pool, len(vols), liquid_syms
 
 
 def rs_against(dates, closes, date_close_map):
@@ -520,13 +552,19 @@ def compose(e2, a2, e5, a5, e6, a6):
             f"{stages_covered}/{V4_TOTAL_STAGES}", conf)
 
 
-def build_rows(watch, bars, idx_dated, sector_table, canon_by_symbol, universe, insufficient,
+def build_rows(candidate_syms, bars, idx_dated, sector_table, canon_by_symbol, universe, insufficient,
                 rvol_pool, mom_pool):
+    """candidate_syms: every symbol to score -- the watchlist plus (once widened)
+    every other liquid NSE stock. canon_by_symbol only has entries for watchlist
+    symbols (from bridge_sectors); .get() naturally returns None for everyone
+    else, so a non-watchlist candidate flows through exactly like a watchlist
+    stock whose sector didn't bridge -- Stage 2 and RS-vs-sector renormalize
+    out, never a crash or a false zero."""
     raw5, raw6, mom_values = {}, {}, {}
     nifty_map = idx_dated.get(BENCHMARK, {})
 
-    for sym, _ in watch:
-        if sym in insufficient:
+    for sym in candidate_syms:
+        if sym in insufficient or sym not in bars:
             continue
         b = bars[sym]
         raw5[sym] = stage5_raw(b)
@@ -534,29 +572,30 @@ def build_rows(watch, bars, idx_dated, sector_table, canon_by_symbol, universe, 
         sector_map = idx_dated.get(SECTORS[sector_key]) if sector_key else None
         raw6[sym] = stage6_raw(b["dates"], b["close"], nifty_map, sector_map)
         r3 = universe.get(sym, {}).get("ret_3m_pct")
+        if r3 is None:
+            r3 = mom_pool.get(sym)  # non-watchlist candidates have no universe.csv row at all
         if r3 is not None:
             mom_values[sym] = r3
 
     rvol_values = {sym: r["rvol"] for sym, r in raw5.items() if r["rvol"] is not None}
-    # Rank against the full liquid-universe pool, not just these watchlist
-    # values -- a watchlist stock's own freshly-computed value wins over any
-    # near-duplicate already in the pool (dict union: later keys override).
+    # Rank against the full liquid-universe pool, not just these candidates'
+    # own values -- a freshly-computed value wins over any near-duplicate
+    # already in the pool (dict union: later keys override).
     rvol_pts_by_sym = rank_percentile_points({**rvol_pool, **rvol_values}, RVOL_TIERS)
     combined_mom = {**mom_pool, **mom_values}
     mom_pts_by_sym = rank_percentile_points(combined_mom, MOM_TIERS)
     mom_pctile_by_sym = percentile_rank(combined_mom)
 
     scored, any_52w_short = {}, False
-    for sym, _ in watch:
-        if sym in insufficient:
+    for sym in candidate_syms:
+        if sym not in raw5:
             continue
         sector_key = canon_by_symbol.get(sym)
         sec_row = sector_table.get(sector_key) if sector_key else None
 
         e2, a2 = stage2_score(sec_row)
         e5, a5 = stage5_score(raw5[sym], rvol_pts_by_sym.get(sym))
-        r3 = universe.get(sym, {}).get("ret_3m_pct")
-        e6, a6 = stage6_score(raw6[sym], mom_pts_by_sym.get(sym), r3 is not None)
+        e6, a6 = stage6_score(raw6[sym], mom_pts_by_sym.get(sym), sym in combined_mom)
         if raw6[sym]["short_52w"]:
             any_52w_short = True
 
@@ -634,14 +673,29 @@ def main() -> int:
     universe = read_universe(universe_path)
 
     symbols = {sym for sym, _ in watch}
+
+    # Full-universe candidate set: every liquid NSE EQ stock, not just the
+    # watchlist -- so a mover you haven't hand-picked can still surface (in
+    # discoveries.csv; the sector-gated shortlist stays watchlist-only, see
+    # docs/stock-scoring-reference.md). Built before the OHLCV read so that
+    # read covers everyone in one pass.
+    universe_read = bhav_files[-UNIVERSE_READ_FILES:]
+    rvol_pool, mom_pool, total_scanned, liquid_syms = build_universe_pool(universe_read)
+    liquid_n = len(liquid_syms)
+    extra_syms = liquid_syms - symbols
+    full_candidates = symbols | extra_syms
+
     bhav_read = bhav_files[-READ_FILES:]
-    bars = read_ohlcv(bhav_read, symbols)
+    bars = read_ohlcv(bhav_read, full_candidates)
 
     mapped_keys = {k for k in canon_by_symbol.values() if k is not None}
     wanted_idx = {SECTORS[k] for k in mapped_keys} | {BENCHMARK}
     idx_read = idx_files[-READ_FILES:]
     idx_dated = read_index_closes_dated(idx_read, wanted_idx)
 
+    # Coarse pre-filter stays watchlist-only (unchanged reporting/behavior);
+    # extra candidates rely on build_rows' per-criterion length checks plus
+    # its own "sym not in bars" guard instead of this blanket MIN_SESSIONS cut.
     insufficient = [sym for sym, _ in watch
                     if sym not in bars or len(bars[sym]["close"]) < MIN_SESSIONS]
     if len(insufficient) == len(watch):
@@ -649,15 +703,15 @@ def main() -> int:
               f"(need >= {MIN_SESSIONS} sessions).")
         return 1
 
-    universe_read = bhav_files[-UNIVERSE_READ_FILES:]
-    rvol_pool, mom_pool, total_scanned, liquid_n = build_universe_pool(universe_read)
-
-    scored, any_52w_short = build_rows(watch, bars, idx_dated, sector_table, canon_by_symbol, universe,
+    scored, any_52w_short = build_rows(full_candidates, bars, idx_dated, sector_table, canon_by_symbol, universe,
                                         insufficient, rvol_pool, mom_pool)
-    rows = list(scored.values())  # watch order preserved (scored built by iterating watch)
+    rows = [scored[sym] for sym, _ in watch if sym in scored]  # watchlist only, watch order preserved
+    discoveries = [scored[sym] for sym in extra_syms if sym in scored]
     # Every watchlist symbol must survive the merge, even ones we couldn't score
     # (merge_universe only writes rows it's given -- an omitted symbol would
     # otherwise vanish from universe.csv instead of just keeping blank Bucket C).
+    # Extra (non-watchlist) candidates never touch universe.csv -- it stays the
+    # watchlist's own hand-maintained sheet, per CLAUDE.md.
     all_rows = [scored[sym] if sym in scored else {"symbol": sym} for sym, _ in watch]
 
     # ---- §1 Data coverage ----
@@ -717,6 +771,28 @@ def main() -> int:
     shortlist_path = month_dir / "shortlist.csv"
     write_shortlist(shortlist_path, shortlist, universe)
 
+    # ---- §5 Discoveries (non-watchlist, sector unknown) ----
+    # Require BOTH implemented stages to contribute (stage6_pts non-blank) --
+    # without a sector, 2/9 is the ceiling here, so this is the bar that
+    # actually distinguishes a real candidate from a lone Stage-5 spike (a
+    # single fully-earned stage can otherwise renormalize to a misleading
+    # score_100 = 100.0 on almost no evidence).
+    top_discoveries = sorted(
+        (r for r in discoveries if r["pts_available"] > 0 and r["stage6_pts"] != ""),
+        key=lambda r: r["score_100"], reverse=True)[:DISCOVERY_N]
+    print(f"Discoveries (non-watchlist liquid stocks, sector unverified, top {DISCOVERY_N} by score_100):")
+    if top_discoveries:
+        print(f"{'symbol':<12}{'score':>7}{'s5':>6}{'s6':>6}{'cov':>6}  conf")
+        for r in top_discoveries:
+            print(f"{r['symbol']:<12}{r['score_100']:>7}{str(r['stage5_pts']):>6}{str(r['stage6_pts']):>6}"
+                  f"{r['stages_covered']:>6}  {r['score_conf']}")
+    else:
+        print("  (none scored)")
+    print()
+
+    discoveries_path = month_dir / "discoveries.csv"
+    write_discoveries(discoveries_path, top_discoveries)
+
     # ---- merge into universe.csv (Bucket C, merge-don't-clobber) ----
     with open(UNIVERSE_TEMPLATE, newline="", encoding="utf-8") as f:
         uni_header = next(csv.reader(f))
@@ -724,10 +800,13 @@ def main() -> int:
 
     untracked_n = sum(len(v) for v in unmapped["untracked"].values())
     shortlist_sectors = len({r["sector_canon"] for r in shortlist})
-    print(f"RESULT: scored {len(rows)}/{len(watch)} stocks, {untracked_n} unmapped-sector, "
-          f"shortlist {len(shortlist)} name(s) from {shortlist_sectors} sector(s).")
+    print(f"RESULT: scored {len(rows)}/{len(watch)} watchlist stocks, {untracked_n} unmapped-sector, "
+          f"shortlist {len(shortlist)} name(s) from {shortlist_sectors} sector(s); "
+          f"{len(discoveries)}/{len(extra_syms)} non-watchlist liquid stocks scored, "
+          f"{len(top_discoveries)} discoveries.")
     print(f"Written to {universe_path.relative_to(REPO)} ({n} rows, Bucket C columns).")
     print(f"Written to {shortlist_path.relative_to(REPO)} ({len(shortlist)} rows).")
+    print(f"Written to {discoveries_path.relative_to(REPO)} ({len(top_discoveries)} rows).")
     return 0
 
 
