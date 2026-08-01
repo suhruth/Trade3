@@ -88,6 +88,9 @@ CONF_HIGH, CONF_MED = 34, 27
 
 SHORTLIST_N = 15
 SHORTLIST_QUADRANTS = ("Leading", "Improving")
+SHORTLIST_HEADER = ("symbol", "sector", "quadrant", "score_100",
+                     "stage2_pts", "stage5_pts", "stage6_pts",
+                     "stages_covered", "score_conf", "liquid")
 
 # Minimum sessions to consider a stock scoreable at all, and the RS-criterion
 # availability gate (RS_AVG's own moving average + RS_LOOKBACK's back-reference).
@@ -258,6 +261,22 @@ def read_universe(path: Path):
                 r3 = None
             out[sym] = {"ret_3m_pct": r3, "liquid": (row.get("liquid") or "").strip()}
     return out
+
+
+def write_shortlist(path: Path, shortlist, universe):
+    """Write the printed Buy Watchlist (Leading/Improving sectors, top
+    SHORTLIST_N by score_100) to its own CSV so it survives past the console,
+    same rows/order as the §4 printout."""
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(SHORTLIST_HEADER)
+        for r in shortlist:
+            w.writerow([
+                r["symbol"], r["sector_canon"], r["sector_quadrant"], r["score_100"],
+                r["stage2_pts"], r["stage5_pts"], r["stage6_pts"],
+                r["stages_covered"], r["score_conf"],
+                universe.get(r["symbol"], {}).get("liquid") or "",
+            ])
 
 
 def read_universe_pool(paths):
@@ -695,6 +714,9 @@ def main() -> int:
               f"{r['stages_covered']:>6}  {r['score_conf']}{illiquid}")
     print()
 
+    shortlist_path = month_dir / "shortlist.csv"
+    write_shortlist(shortlist_path, shortlist, universe)
+
     # ---- merge into universe.csv (Bucket C, merge-don't-clobber) ----
     with open(UNIVERSE_TEMPLATE, newline="", encoding="utf-8") as f:
         uni_header = next(csv.reader(f))
@@ -705,6 +727,7 @@ def main() -> int:
     print(f"RESULT: scored {len(rows)}/{len(watch)} stocks, {untracked_n} unmapped-sector, "
           f"shortlist {len(shortlist)} name(s) from {shortlist_sectors} sector(s).")
     print(f"Written to {universe_path.relative_to(REPO)} ({n} rows, Bucket C columns).")
+    print(f"Written to {shortlist_path.relative_to(REPO)} ({len(shortlist)} rows).")
     return 0
 
 
