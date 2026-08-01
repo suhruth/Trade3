@@ -3,8 +3,10 @@
 rank_stocks.py — bridge each watchlist stock to its ranked sector, then score
 the v4 stages that are mechanically reachable from data already archived by
 this pipeline: Stage 2 (Sector Rotation, a pure join off sectors.csv), Stage 5
-(Institutional Activity, from bhavcopy volume/delivery), and Stage 6 (Relative
-Strength, stock vs Nifty and stock vs its own sector).
+(Institutional Activity, from bhavcopy volume/delivery), Stage 6 (Relative
+Strength, stock vs Nifty and stock vs its own sector), and Stage 7
+(Accumulation Structure — volatility contraction, volume dry-up, tight base,
+and quiet delivery accumulation — the pre-breakout "about to move" signature).
 
 THE BRIDGE PROBLEM this script exists to fix: watchlist.csv stores each stock's
 sector as the exact NSE index name (e.g. "Nifty Financial Services"), while
@@ -12,14 +14,18 @@ sectors.csv (rank_sectors.py's output) keys its rows on the SECTORS dict's
 FRIENDLY labels (e.g. "Nifty Fin Service") — a naive string join silently
 fails for the sectors where those two diverge. Two watchlist labels (Cement,
 Nifty Capital Goods) don't correspond to any of the 17 ranked indexes at all;
-those stocks are scored on Stage 5 only and flagged, never hard-failed.
+those stocks are scored on Stages 5/7 only and flagged, never hard-failed.
 
-Stages 1/3/4/7/8/9 are NOT computed here — they need data or pattern-detection
+Stages 1/3/4/8/9 are NOT computed here — they need data or pattern-detection
 logic this repo doesn't have yet (Nifty-EMA regime, Screener fundamentals,
-mechanical chart-pattern recognition). Per the model's own missing-data rule
+mechanical Zanger-pattern recognition). Per the model's own missing-data rule
 (CLAUDE.md: "never score missing as 0"), every stock's score is renormalized
 over only the criteria/stages actually measured, and carries a stages_covered
 + score_conf confidence flag so a thin score is never mistaken for a strong one.
+Stage 7's volatility-contraction criterion (3 of its 10 pts) specifically
+needs 136 archived sessions (ATR_LOOKBACK + ATR_WINDOW) and stays unavailable,
+not faked on a shorter window, until the archive is that deep — same policy
+as Stage 6's 52-week-high criterion.
 
 RVOL and 3-month-momentum are percentile-ranked against every LIQUID NSE EQ
 symbol (median 20-day traded value > build_monthly.LIQUID_CR), not just the
@@ -39,7 +45,7 @@ Pipeline position (third stage, after both of these have run this month):
     rank_sectors.py  -->  build_monthly.py  -->  rank_stocks.py
 Reads that month's sectors.csv (stage2_pts/quadrant) and universe.csv
 (ret_3m_pct/liquid from Bucket A) — hard-fails with a remedy message if either
-is missing. Owns Bucket C (19 columns, see templates/monthly-universe-template.csv)
+is missing. Owns Bucket C (24 columns, see templates/monthly-universe-template.csv)
 in universe.csv; never touches symbol/sector/Bucket A/Bucket B/tier.
 
 Usage:
@@ -61,7 +67,7 @@ from datetime import date
 from pathlib import Path
 
 from rank_sectors import (
-    SECTORS, BENCHMARK, LOOKBACK_3M, RS_LOOKBACK, RS_AVG,
+    SECTORS, BENCHMARK, LOOKBACK_3M, LOOKBACK_6M, RS_LOOKBACK, RS_AVG,
     rs_line, rs_metrics, pct_off_high, pct_return, month_dirname,
     sorted_index_files,
 )
@@ -86,25 +92,36 @@ MOM_TIERS = ((0.20, 3),)                          # top 20% of universe by 3M re
 LOOKBACK_52W = 252
 NEAR_HIGH_PCT = 3.0     # "within 3% of the 52-week high" counts as a new high
 
-STAGE_NOMINAL = {2: 10, 5: 15, 6: 15}
+# Stage 7 (Accumulation Structure) constants.
+ATR_WINDOW = 10          # sessions averaged into the ATR itself
+ATR_LOOKBACK = LOOKBACK_6M   # 126 sessions -- the "its own 6-month range" for the percentile
+ATR_CONTRACTION_QUARTILE = 0.25   # "bottom quartile" of that range
+VOL_DRYUP_RECENT = 20    # recent window ("20-day average volume")
+VOL_DRYUP_PRIOR = 50     # prior, non-overlapping window ("the prior 50-day average")
+VOL_DRYUP_MAX = 0.7      # recent must be < this fraction of prior
+TIGHT_BASE_WINDOW = 20
+TIGHT_BASE_MAX_PCT = 15.0   # "20-day high-to-low range < 15%"
+
+STAGE_NOMINAL = {2: 10, 5: 15, 6: 15, 7: 10}
 V4_TOTAL_STAGES = 9
-# Confidence bands on pts_available. Tuned against today's practical ceiling of 37
-# (52-week-high, 3 pts, is normally unavailable until the archive reaches 252
-# sessions) — the true ceiling is 40 and these bands loosen in meaning as the
-# archive deepens; retune once 52-week data is routinely available.
-CONF_HIGH, CONF_MED = 34, 27
+# Confidence bands on pts_available. Tuned against today's practical ceiling of 44
+# (37 from Stages 2/5/6 + 7 of Stage 7's 10, since volatility-contraction (3 pts)
+# needs ATR_LOOKBACK + ATR_WINDOW = 136 sessions, not yet archived) -- the true
+# ceiling is 47 and these bands loosen in meaning as the archive deepens; retune
+# again once both 52-week and 6-month-ATR history are routinely available.
+CONF_HIGH, CONF_MED = 40, 32
 
 SHORTLIST_N = 15
 SHORTLIST_QUADRANTS = ("Leading", "Improving")
 SHORTLIST_HEADER = ("symbol", "sector", "quadrant", "score_100",
-                     "stage2_pts", "stage5_pts", "stage6_pts",
+                     "stage2_pts", "stage5_pts", "stage6_pts", "stage7_pts",
                      "stages_covered", "score_conf", "liquid")
 
 # Non-watchlist liquid stocks with a strong Stage 5/6 score but no sector
 # mapping (see module docstring / bridge_sectors) -- can't pass the sector
 # gate above, so they get their own file instead of silently vanishing.
 DISCOVERY_N = 30
-DISCOVERY_HEADER = ("symbol", "score_100", "stage5_pts", "stage6_pts",
+DISCOVERY_HEADER = ("symbol", "score_100", "stage5_pts", "stage6_pts", "stage7_pts",
                      "stages_covered", "score_conf", "rvol", "deliv_surge", "mom_pctile")
 
 # Minimum sessions to consider a stock scoreable at all, and the RS-criterion
@@ -125,6 +142,7 @@ BUCKET_C = (
     "sector_canon", "sector_rank", "sector_quadrant", "stage2_pts",
     "rvol", "rvol_pts", "deliv_surge", "vol_persist", "close_range_pct", "stage5_pts",
     "rs_nifty", "rs_sector", "mom_pctile", "stage6_pts",
+    "vol_contraction", "vol_dryup", "tight_base", "quiet_accum", "stage7_pts",
     "score_pts", "pts_available", "score_100", "stages_covered", "score_conf",
 )
 
@@ -288,7 +306,7 @@ def write_shortlist(path: Path, shortlist, universe):
         for r in shortlist:
             w.writerow([
                 r["symbol"], r["sector_canon"], r["sector_quadrant"], r["score_100"],
-                r["stage2_pts"], r["stage5_pts"], r["stage6_pts"],
+                r["stage2_pts"], r["stage5_pts"], r["stage6_pts"], r["stage7_pts"],
                 r["stages_covered"], r["score_conf"],
                 universe.get(r["symbol"], {}).get("liquid") or "",
             ])
@@ -304,7 +322,7 @@ def write_discoveries(path: Path, discoveries):
         w.writerow(DISCOVERY_HEADER)
         for r in discoveries:
             w.writerow([
-                r["symbol"], r["score_100"], r["stage5_pts"], r["stage6_pts"],
+                r["symbol"], r["score_100"], r["stage5_pts"], r["stage6_pts"], r["stage7_pts"],
                 r["stages_covered"], r["score_conf"],
                 r["rvol"], r["deliv_surge"], r["mom_pctile"],
             ])
@@ -517,6 +535,125 @@ def stage6_score(raw6, mom_pts, mom_available):
     return earned, available
 
 
+def true_range(high, low, close):
+    """True Range per session from index 1 onward (needs the prior close);
+    length = len(high) - 1, aligned to high/low/close[1:]."""
+    tr = []
+    for i in range(1, len(high)):
+        pc = close[i - 1]
+        tr.append(max(high[i] - low[i], abs(high[i] - pc), abs(low[i] - pc)))
+    return tr
+
+
+def atr_pct_series(high, low, close, window=ATR_WINDOW):
+    """Rolling `window`-session ATR as a % of that session's close (simple
+    average of True Range, not Wilder's smoothing -- a starting threshold per
+    v4 Appendix A's own convention, tune against a backtest). Aligned 1:1 to
+    close[window:] (each ATR needs `window` prior TRs, each needing a prior
+    close, so the first `window` sessions have no value)."""
+    tr = true_range(high, low, close)
+    out = []
+    for i in range(window - 1, len(tr)):
+        atr = statistics.fmean(tr[i - window + 1:i + 1])
+        c = close[i + 1]   # tr[i] is the TR ending at close[i+1]
+        out.append(atr / c * 100 if c else None)
+    return out
+
+
+def volatility_contraction(high, low, close):
+    """Stage 7 criterion 1: is today's ATR_WINDOW-session ATR% in the bottom
+    ATR_CONTRACTION_QUARTILE of its own ATR_LOOKBACK-session history? None
+    (unavailable, not False) until ATR_LOOKBACK + ATR_WINDOW sessions exist --
+    same "don't fake a shorter window" policy as the 52-week-high criterion."""
+    needed = ATR_LOOKBACK + ATR_WINDOW
+    if len(close) < needed:
+        return None
+    series = atr_pct_series(high[-needed:], low[-needed:], close[-needed:])
+    series = [v for v in series if v is not None]
+    if len(series) < ATR_LOOKBACK or series[-1] is None:
+        return None
+    today = series[-1]
+    rank = sum(1 for v in series if v <= today) / len(series)
+    return rank <= ATR_CONTRACTION_QUARTILE
+
+
+def volume_dryup(vol):
+    """Stage 7 criterion 2: is the recent VOL_DRYUP_RECENT-session average
+    volume below VOL_DRYUP_MAX of the PRIOR (non-overlapping)
+    VOL_DRYUP_PRIOR-session average? None if not enough history."""
+    needed = VOL_DRYUP_RECENT + VOL_DRYUP_PRIOR
+    if len(vol) < needed:
+        return None
+    recent = statistics.fmean(vol[-VOL_DRYUP_RECENT:])
+    prior = statistics.fmean(vol[-needed:-VOL_DRYUP_RECENT])
+    if not prior:
+        return None
+    return recent < VOL_DRYUP_MAX * prior
+
+
+def tight_base(high, low):
+    """Stage 7 criterion 3: is the TIGHT_BASE_WINDOW-session high-to-low range
+    < TIGHT_BASE_MAX_PCT of the window's low? Returns (is_tight, base_high,
+    base_low) -- the latter two feed quiet_accumulation's breakout check;
+    all None if not enough history."""
+    if len(high) < TIGHT_BASE_WINDOW or len(low) < TIGHT_BASE_WINDOW:
+        return None, None, None
+    h = max(high[-TIGHT_BASE_WINDOW:])
+    l = min(low[-TIGHT_BASE_WINDOW:])
+    if not l:
+        return None, None, None
+    return ((h - l) / l * 100 < TIGHT_BASE_MAX_PCT), h, l
+
+
+def quiet_accumulation(deliv, close, base_high):
+    """Stage 7 criterion 4: delivery-% trend rising (Appendix B4's simpler
+    5-day-vs-20-day-average proxy) while price hasn't already broken out of
+    its own base. None if delivery history or the base itself is unavailable."""
+    if base_high is None:
+        return None
+    window = [x for x in deliv[-20:] if x is not None]
+    recent = [x for x in deliv[-5:] if x is not None]
+    if len(window) < 20 or not recent:
+        return None
+    trend_rising = statistics.fmean(recent) > statistics.fmean(window)
+    still_in_base = close[-1] < base_high
+    return trend_rising and still_in_base
+
+
+def stage7_raw(b):
+    """Stage 7 (Accumulation Structure) raw diagnostics for one symbol's bar
+    history (chronological). Each metric is None if there isn't enough data."""
+    close, high, low, vol, deliv = b["close"], b["high"], b["low"], b["vol"], b["deliv"]
+    base_ok, base_high, _ = tight_base(high, low)
+    return {
+        "vol_contraction": volatility_contraction(high, low, close),
+        "vol_dryup": volume_dryup(vol),
+        "tight_base": base_ok,
+        "quiet_accum": quiet_accumulation(deliv, close, base_high),
+    }
+
+
+def stage7_score(raw7):
+    earned = available = 0
+    if raw7["vol_contraction"] is not None:
+        available += 3
+        if raw7["vol_contraction"]:
+            earned += 3
+    if raw7["vol_dryup"] is not None:
+        available += 3
+        if raw7["vol_dryup"]:
+            earned += 3
+    if raw7["tight_base"] is not None:
+        available += 2
+        if raw7["tight_base"]:
+            earned += 2
+    if raw7["quiet_accum"] is not None:
+        available += 2
+        if raw7["quiet_accum"]:
+            earned += 2
+    return earned, available
+
+
 def stage2_score(sec_row):
     if sec_row is None:
         return 0.0, 0
@@ -527,28 +664,29 @@ def renormalize(earned, available, nominal):
     return 0.0 if available == 0 else earned / available * nominal
 
 
-def compose(e2, a2, e5, a5, e6, a6):
+def compose(e2, a2, e5, a5, e6, a6, e7, a7):
     """Renormalize each covered stage onto its nominal weight, then project the
     sum onto a 0-100 scale using only the criteria actually measured. Never
     scores a missing stage/criterion as zero (CLAUDE.md's stated invariant).
-    Returns the renormalized per-stage scores too (s5/s6 -- what stage5_pts/
-    stage6_pts show; NOT the same as raw earned points once any criterion in
+    Returns the renormalized per-stage scores too (s5/s6/s7 -- what
+    stageN_pts show; NOT the same as raw earned points once any criterion in
     that stage is unavailable)."""
     s2 = renormalize(e2, a2, STAGE_NOMINAL[2])
     s5 = renormalize(e5, a5, STAGE_NOMINAL[5])
     s6 = renormalize(e6, a6, STAGE_NOMINAL[6])
-    score_pts = round(s2 + s5 + s6, 1)
-    pts_available = a2 + a5 + a6
-    raw_earned = e2 + e5 + e6
+    s7 = renormalize(e7, a7, STAGE_NOMINAL[7])
+    score_pts = round(s2 + s5 + s6 + s7, 1)
+    pts_available = a2 + a5 + a6 + a7
+    raw_earned = e2 + e5 + e6 + e7
     score_100 = round(raw_earned / pts_available * 100, 1) if pts_available else 0.0
-    stages_covered = sum(1 for a in (a2, a5, a6) if a > 0)
+    stages_covered = sum(1 for a in (a2, a5, a6, a7) if a > 0)
     if pts_available >= CONF_HIGH:
         conf = "HIGH"
     elif pts_available >= CONF_MED:
         conf = "MED"
     else:
         conf = "LOW"
-    return (round(s5, 1), round(s6, 1), score_pts, pts_available, score_100,
+    return (round(s5, 1), round(s6, 1), round(s7, 1), score_pts, pts_available, score_100,
             f"{stages_covered}/{V4_TOTAL_STAGES}", conf)
 
 
@@ -560,7 +698,7 @@ def build_rows(candidate_syms, bars, idx_dated, sector_table, canon_by_symbol, u
     else, so a non-watchlist candidate flows through exactly like a watchlist
     stock whose sector didn't bridge -- Stage 2 and RS-vs-sector renormalize
     out, never a crash or a false zero."""
-    raw5, raw6, mom_values = {}, {}, {}
+    raw5, raw6, raw7, mom_values = {}, {}, {}, {}
     nifty_map = idx_dated.get(BENCHMARK, {})
 
     for sym in candidate_syms:
@@ -571,6 +709,7 @@ def build_rows(candidate_syms, bars, idx_dated, sector_table, canon_by_symbol, u
         sector_key = canon_by_symbol.get(sym)
         sector_map = idx_dated.get(SECTORS[sector_key]) if sector_key else None
         raw6[sym] = stage6_raw(b["dates"], b["close"], nifty_map, sector_map)
+        raw7[sym] = stage7_raw(b)
         r3 = universe.get(sym, {}).get("ret_3m_pct")
         if r3 is None:
             r3 = mom_pool.get(sym)  # non-watchlist candidates have no universe.csv row at all
@@ -596,11 +735,12 @@ def build_rows(candidate_syms, bars, idx_dated, sector_table, canon_by_symbol, u
         e2, a2 = stage2_score(sec_row)
         e5, a5 = stage5_score(raw5[sym], rvol_pts_by_sym.get(sym))
         e6, a6 = stage6_score(raw6[sym], mom_pts_by_sym.get(sym), sym in combined_mom)
+        e7, a7 = stage7_score(raw7[sym])
         if raw6[sym]["short_52w"]:
             any_52w_short = True
 
-        stage5_pts, stage6_pts, score_pts, pts_available, score_100, stages_covered, conf = \
-            compose(e2, a2, e5, a5, e6, a6)
+        stage5_pts, stage6_pts, stage7_pts, score_pts, pts_available, score_100, stages_covered, conf = \
+            compose(e2, a2, e5, a5, e6, a6, e7, a7)
 
         scored[sym] = {
             "symbol": sym,
@@ -618,6 +758,11 @@ def build_rows(candidate_syms, bars, idx_dated, sector_table, canon_by_symbol, u
             "rs_sector": "" if raw6[sym]["rs_sector_ok"] is None else ("Y" if raw6[sym]["rs_sector_ok"] else "N"),
             "mom_pctile": mom_pctile_by_sym.get(sym, ""),
             "stage6_pts": stage6_pts if a6 else "",
+            "vol_contraction": "" if raw7[sym]["vol_contraction"] is None else ("Y" if raw7[sym]["vol_contraction"] else "N"),
+            "vol_dryup": "" if raw7[sym]["vol_dryup"] is None else ("Y" if raw7[sym]["vol_dryup"] else "N"),
+            "tight_base": "" if raw7[sym]["tight_base"] is None else ("Y" if raw7[sym]["tight_base"] else "N"),
+            "quiet_accum": "" if raw7[sym]["quiet_accum"] is None else ("Y" if raw7[sym]["quiet_accum"] else "N"),
+            "stage7_pts": stage7_pts if a7 else "",
             "score_pts": score_pts,
             "pts_available": pts_available,
             "score_100": score_100,
@@ -630,7 +775,7 @@ def build_rows(candidate_syms, bars, idx_dated, sector_table, canon_by_symbol, u
 
 def main() -> int:
     ap = argparse.ArgumentParser(
-        description="Bridge watchlist stocks to their ranked sector; score v4 Stages 2, 5, 6.")
+        description="Bridge watchlist stocks to their ranked sector; score v4 Stages 2, 5, 6, 7.")
     ap.add_argument("--month", help="target journal month YYYY-MM (default: current month)")
     args = ap.parse_args()
 
@@ -760,32 +905,34 @@ def main() -> int:
         (r for r in rows if r["sector_quadrant"] in SHORTLIST_QUADRANTS),
         key=lambda r: r["score_100"], reverse=True)[:SHORTLIST_N]
     print(f"Buy Watchlist (Leading/Improving sectors, top {SHORTLIST_N} by score_100):")
-    print(f"{'symbol':<12}{'sector':<20}{'quad':<11}{'score':>7}{'s2':>5}{'s5':>6}{'s6':>6}{'cov':>6}  conf")
+    print(f"{'symbol':<12}{'sector':<20}{'quad':<11}{'score':>7}{'s2':>5}{'s5':>6}{'s6':>6}{'s7':>6}{'cov':>6}  conf")
     for r in shortlist:
         illiquid = " (illiquid)" if universe.get(r["symbol"], {}).get("liquid") == "N" else ""
         print(f"{r['symbol']:<12}{r['sector_canon']:<20}{r['sector_quadrant']:<11}"
               f"{r['score_100']:>7}{str(r['stage2_pts']):>5}{str(r['stage5_pts']):>6}{str(r['stage6_pts']):>6}"
-              f"{r['stages_covered']:>6}  {r['score_conf']}{illiquid}")
+              f"{str(r['stage7_pts']):>6}{r['stages_covered']:>6}  {r['score_conf']}{illiquid}")
     print()
 
     shortlist_path = month_dir / "shortlist.csv"
     write_shortlist(shortlist_path, shortlist, universe)
 
     # ---- §5 Discoveries (non-watchlist, sector unknown) ----
-    # Require BOTH implemented stages to contribute (stage6_pts non-blank) --
-    # without a sector, 2/9 is the ceiling here, so this is the bar that
-    # actually distinguishes a real candidate from a lone Stage-5 spike (a
-    # single fully-earned stage can otherwise renormalize to a misleading
-    # score_100 = 100.0 on almost no evidence).
+    # Require at least 2 of the 3 sector-independent stages (5/6/7) to
+    # contribute -- without a sector, that's the ceiling here, and it's the
+    # bar that distinguishes a real candidate from a lone fully-earned stage
+    # renormalizing to a misleading score_100 = 100.0 on almost no evidence.
+    def _stages_contributing(r):
+        return sum(1 for k in ("stage5_pts", "stage6_pts", "stage7_pts") if r[k] != "")
+
     top_discoveries = sorted(
-        (r for r in discoveries if r["pts_available"] > 0 and r["stage6_pts"] != ""),
+        (r for r in discoveries if r["pts_available"] > 0 and _stages_contributing(r) >= 2),
         key=lambda r: r["score_100"], reverse=True)[:DISCOVERY_N]
     print(f"Discoveries (non-watchlist liquid stocks, sector unverified, top {DISCOVERY_N} by score_100):")
     if top_discoveries:
-        print(f"{'symbol':<12}{'score':>7}{'s5':>6}{'s6':>6}{'cov':>6}  conf")
+        print(f"{'symbol':<12}{'score':>7}{'s5':>6}{'s6':>6}{'s7':>6}{'cov':>6}  conf")
         for r in top_discoveries:
             print(f"{r['symbol']:<12}{r['score_100']:>7}{str(r['stage5_pts']):>6}{str(r['stage6_pts']):>6}"
-                  f"{r['stages_covered']:>6}  {r['score_conf']}")
+                  f"{str(r['stage7_pts']):>6}{r['stages_covered']:>6}  {r['score_conf']}")
     else:
         print("  (none scored)")
     print()
