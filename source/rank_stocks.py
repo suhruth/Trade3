@@ -645,7 +645,7 @@ def main() -> int:
     print(f"As-of bhavcopy: {bhav_read[-1].name}  ({len(bhav_read)} days loaded)")
     print(f"As-of index:    {idx_read[-1].name}  ({len(idx_read)} days loaded)")
     print(f"Liquid-universe pool: {liquid_n}/{total_scanned} NSE EQ symbols pass the "
-          f"₹{LIQUID_CR:.0f} Cr liquidity gate (last {len(universe_read)} sessions) "
+          f">{LIQUID_CR:.0f} Cr liquidity gate (last {len(universe_read)} sessions) "
           f"-- RVOL/momentum percentiles ranked against this pool.\n")
     if insufficient:
         print(f"Insufficient history (<{MIN_SESSIONS} sessions), not scored: {', '.join(insufficient)}\n")
