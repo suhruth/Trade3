@@ -1,7 +1,7 @@
 # Stock scoring (Bucket C of `universe.csv`) — column reference
 
 Quick reference for `source/rank_stocks.py`'s output: the sector→stock bridge plus
-v4 Stages 2, 5, 6, and 7, written as 24 columns appended to `journal/<…>/universe.csv`
+v4 Stages 2, 5, 6, 7, and 8, written as 31 columns appended to `journal/<…>/universe.csv`
 (Bucket C — see `CLAUDE.md`'s Bucket A/B/C split). One row per watchlist stock.
 
 Pipeline position (third stage, both predecessors must have already run this month):
@@ -31,6 +31,7 @@ sector_canon,sector_rank,sector_quadrant,stage2_pts,
 rvol,rvol_pts,deliv_surge,vol_persist,close_range_pct,stage5_pts,
 rs_nifty,rs_sector,mom_pctile,stage6_pts,
 vol_contraction,vol_dryup,tight_base,quiet_accum,stage7_pts,
+pattern,pivot,vol_confirm,close_above_pivot,follow_through,no_overhead_supply,stage8_pts,
 score_pts,pts_available,score_100,stages_covered,score_conf
 ```
 
@@ -55,13 +56,20 @@ score_pts,pts_available,score_100,stages_covered,score_conf
 | `tight_base` | Y/N or blank | 20-day high-to-low range < 15% of the low |
 | `quiet_accum` | Y/N or blank | Delivery-% trend rising (5d avg > 20d avg) while price hasn't broken above its own base |
 | `stage7_pts` | 0–10, 1dp | Stage 7 (Accumulation Structure), renormalized over whichever of the above were computable |
-| `score_pts` | 0–50, 1dp | Sum of the renormalized Stage 2 + 5 + 6 + 7 scores |
-| `pts_available` | int, ≤44 today | Total criterion-level points that were actually measurable — the raw confidence number |
+| `pattern` | one of six Appendix-A names or blank | The single most-clearly-formed pattern detected, or blank if none (see below — blank ≠ unavailable here) |
+| `pivot` | price, 2dp or blank | The detected pattern's breakout trigger level |
+| `vol_confirm` | Y/N or blank | Breakout-day volume ≥ 1.5× the 50-day average (Zanger Rule #8) |
+| `close_above_pivot` | Y/N or blank | Today's close above the pattern's pivot |
+| `follow_through` | Y/N or blank | Only ever non-blank the single session after a breakout crossing — otherwise deferred |
+| `no_overhead_supply` | Y/N or blank | No swing high within 10% above the pivot in the last 252 sessions — blank until that much history is archived |
+| `stage8_pts` | 0–15, 1dp | Stage 8 (Breakout/Entry), renormalized over whichever of the above were computable — see the Zanger Rule #1 note below for why "no pattern" is a real 0, not blank |
+| `score_pts` | 0–65, 1dp | Sum of the renormalized Stage 2 + 5 + 6 + 7 + 8 scores |
+| `pts_available` | int, ≤59 today | Total criterion-level points that were actually measurable — the raw confidence number |
 | `score_100` | 0–100, 1dp | `earned ÷ pts_available × 100` — the ranking key. **A projection from what was measured, not a full v4 score** |
-| `stages_covered` | e.g. `4/9` | How many of the v4 model's 9 stages contributed anything (max 4 today: Stages 1/3/4/8/9 aren't implemented) |
+| `stages_covered` | e.g. `5/9` | How many of the v4 model's 9 stages contributed anything (max 5 today: Stages 1/3/4/9 aren't implemented) |
 | `score_conf` | HIGH/MED/LOW | Band on `pts_available` — treat LOW as "needs more data or manual review", not "weak stock" |
 
-## The four stages, criterion by criterion
+## The five stages, criterion by criterion
 
 **Stage 2 — Sector Rotation (10 pts, pure join).** No new math: `stage2_pts` is
 copied straight from the stock's `sector_canon` row in `sectors.csv`. Available (10)
@@ -105,6 +113,48 @@ With ~89 days archived today, this is the one Stage 7 criterion still blank
 for every stock; the other three activate as soon as their own (much
 shorter) history windows are met.
 
+**Stage 8 — Breakout/Entry (15 pts, no sector dependency).** The actual
+trigger — Appendix A's six mechanical Zanger setups, plus confirmation that
+the breakout is real:
+
+| Criterion | Mechanical test | Pts |
+|---|---|---|
+| Qualifying pattern | One of six Appendix-A setups detected (see below) | 6 |
+| Breakout volume confirmation | Today's volume ≥ 1.5× the 50-day average (Zanger Rule #8) | 3 |
+| Close above pivot | Today's close above the pattern's pivot | 2 |
+| Follow-through | The session *after* a breakout crossing still holds above the pivot — deferred (not failed) on the breakout day itself, and not evaluated at all outside that single T+1 window | 2 |
+| No overhead supply | No swing high within 10% above the pivot in the trailing 252 sessions | 2 |
+
+**The six patterns**, each returning a pivot and a "conviction" score used to
+pick the single most-clearly-formed one (never averaged, per Zanger Rule #1):
+
+| Pattern | Mechanical proxy |
+|---|---|
+| Cup and Handle | Prior uptrend ≥30%, a rounded (≥3 sessions near the low, not a V) 65-session base with 12–35% depth, a handle in the upper half with <12% depth on below-average volume |
+| High Tight Flag | A ≥80% flagpole in ≤40 sessions on above-average volume, then a 10–25% pullback over ≤25 sessions with volume contracting — searched across qualifying pole/flag length combinations |
+| Ascending Triangle | Prior uptrend, ≥2 swing-high touches of a flat resistance (within 2%), rising swing lows, volume contracting |
+| Flat Base | Prior uptrend, ≤15%-deep sideways range over ≥25 sessions, volume contracting |
+| Double Bottom | Two swing lows within 4% of each other, ≥5 sessions apart, separated by a rebound of ≥15% — anchored on the window's single deepest swing low, not any pair among several similarly-deep ones |
+| Trendline/Resistance Breakout | **Simplified** to a flat level with ≥3 swing-high rejections within 2% of it — a true diagonal trendline fit (linear regression through the touches) isn't implemented |
+
+**Zanger Rule #1 exception to the missing-data rule:** unlike every other
+criterion in this document, "no qualifying pattern found" is a real,
+**fully-available zero** (`stage8_pts = 0.0`, `pattern` blank), not missing
+data — once there's enough history to have checked all six patterns at all
+(`MIN_STAGE8_SESSIONS`, currently 45 sessions), a stock that clears none of
+them genuinely isn't set up, and the spec is explicit that this scores zero
+regardless of the other stages. Only when history is shorter than that is
+Stage 8 truly unavailable (blank `stage8_pts`).
+
+**These are starting thresholds, not backtested ones** — the spec's own
+words for Appendix A, and worth taking seriously: an early version of the
+Double Bottom detector matched on any two of a window's four deepest swing
+lows and fired on nearly every stock regardless of ticker. It was tightened
+to anchor on the single deepest low and require a genuine ≥15% rebound
+before being trusted, but every pattern here is a mechanical *approximation*
+of a visual concept — verify against a real backtest before sizing a trade
+on `pattern` alone, exactly as the model spec recommends.
+
 ## The percentile pool: full liquid NSE universe, not just the watchlist
 
 RVOL and 3-month momentum are the two criteria that compare a stock against
@@ -125,11 +175,11 @@ time, e.g. `Liquid-universe pool: 612/2043 NSE EQ symbols pass the ₹20 Cr
 liquidity gate`.
 
 This is one of two widened-scope pieces. The other is that Stage 5, Stage 6's
-non-sector criteria, and all of Stage 7 are now computed for every liquid NSE
-stock, not only the watchlist — see "Beyond the watchlist" below. Only
-`sector_canon` and everything that depends on it (Stage 2, `rs_sector`) stay
-watchlist-only, since sector membership is simply data this repo doesn't have
-for a random NSE stock.
+non-sector criteria, and all of Stages 7 and 8 are now computed for every
+liquid NSE stock, not only the watchlist — see "Beyond the watchlist" below.
+Only `sector_canon` and everything that depends on it (Stage 2, `rs_sector`)
+stay watchlist-only, since sector membership is simply data this repo
+doesn't have for a random NSE stock.
 
 ## Renormalization — worked example
 
@@ -176,6 +226,16 @@ volume dry-up and tight base, quiet-accumulation and vol-contraction unavailable
 - **`vol_contraction` (3 of Stage 7's 10 pts) is blank for every stock today**
   for the identical reason, needing 136 sessions instead of 252 — see the
   Stage 7 section above.
+- **`pattern`/`pivot`/Stage 8's dependent criteria are blank when no pattern
+  fired *and* history is too short to have checked (`< MIN_STAGE8_SESSIONS`,
+  45 sessions).** Once that history exists, "no pattern" is a real,
+  non-blank `stage8_pts = 0.0` — see the Zanger Rule #1 note above, the one
+  deliberate exception to "blank means missing" in this whole document.
+- **`follow_through` is blank almost always**, not because of missing
+  history but because it's only ever meaningful the single session right
+  after a breakout crossing — every other day it's correctly deferred.
+- **`no_overhead_supply` is blank for every stock today**, needing the same
+  252 sessions as Stage 6's 52-week-high.
 
 ## How to use this
 
@@ -185,37 +245,43 @@ ranked Buy Watchlist restricted to exactly that filter, sorted by `score_100`,
 top 15, and saves the same rows/order to `journal/<month>/shortlist.csv`.
 Treat `score_conf = LOW` as "look at this by hand before trusting the
 number," not as a verdict on the stock. Remember `score_100` is not a full v4
-score — until Stages 1/3/4/8/9 exist, it's a projection from whatever subset
-was actually measured that run.
+score — until Stages 1/3/4/9 exist, it's a projection from whatever subset
+was actually measured that run. A non-blank `pattern` with `close_above_pivot
+= N` is a "watch for the breakout" case, not a "buy now" one — check both
+columns together, not `pattern` alone.
 
 ## Beyond the watchlist: `journal/<month>/discoveries.csv`
 
-Every liquid NSE EQ stock — not just the watchlist — is scored on Stages 5, 6,
-and 7 using the same functions above (`canon_by_symbol.get()` naturally
-returns `None` for a non-watchlist symbol, so it flows through exactly like a
-watchlist stock whose sector didn't bridge). But only watchlist stocks have a
-*known* sector, so only they can ever pass the shortlist's Leading/Improving
-gate — a random NSE stock's sector is simply not data this repo has. Rather
-than silently drop a strong-scoring non-watchlist stock, it's written to
-`discoveries.csv` instead: the top 30 by `score_100`, sector unverified.
+Every liquid NSE EQ stock — not just the watchlist — is scored on Stages 5,
+6, 7, and 8 using the same functions above (`canon_by_symbol.get()`
+naturally returns `None` for a non-watchlist symbol, so it flows through
+exactly like a watchlist stock whose sector didn't bridge). But only
+watchlist stocks have a *known* sector, so only they can ever pass the
+shortlist's Leading/Improving gate — a random NSE stock's sector is simply
+not data this repo has. Rather than silently drop a strong-scoring
+non-watchlist stock, it's written to `discoveries.csv` instead: the top 30
+by `score_100`, sector unverified.
 
 Two things to know before trusting a row in this file:
 
-- **`score_conf` will always read `LOW` here today.** Without a sector, the
-  ceiling is `pts_available ≈ 30` (Stage 5's 15 + Stage 6's 8 without
-  sector-RS/52w + Stage 7's 7 without volatility-contraction) — below
-  `CONF_MED = 32`. Once 52-week and 6-month-ATR history both mature, that
-  ceiling rises to ~36 — enough to eventually reach `MED`, never `HIGH`
-  (Stage 2's 10 and Stage 6's sector-RS 4 points stay permanently out of
-  reach without a sector). This matches the *existing* behavior for the
-  watchlist's own unmapped-sector stocks (`Cement`, `Nifty Capital Goods`);
-  it isn't a lesser bar for discoveries, just the same bar these stocks can
-  never fully clear.
-- **At least 2 of Stages 5/6/7 must contribute to appear at all.** A stock
+- **`score_conf` usually reads `LOW` here, but `MED` is reachable** (e.g.
+  `REDINGTON` hit `MED` on 2026-07-31) now that Stage 8 typically contributes
+  its full 15 points to `pts_available` even when no pattern fires (Zanger
+  Rule #1 — see above). The rest is variable: Stage 6/7's *available* points
+  (not just earned) fluctuate stock to stock depending on which criteria
+  happened to compute, so the exact ceiling isn't fixed the way it is for a
+  watchlist stock. `HIGH` stays permanently out of reach without a sector
+  (Stage 2's 10 and Stage 6's sector-RS 4 points can never be earned). This
+  matches the *existing* behavior for the watchlist's own unmapped-sector
+  stocks (`Cement`, `Nifty Capital Goods`); it isn't a lesser bar for
+  discoveries, just the same bar these stocks can never fully clear.
+- **At least 2 of Stages 5/6/7/8 must contribute to appear at all.** A stock
   scoring on a single fully-earned stage renormalizes to a misleadingly
   "perfect" `score_100 = 100.0` — technically correct arithmetic, but not
   evidence worth acting on. This filter removes that noise; the model
   invariant itself (renormalize, never score missing as zero) is unchanged.
+  Stage 8 alone can't trigger this by itself: a "no pattern" zero is one
+  contributing stage, not two.
 
 Treat a `discoveries.csv` row as a lead, not a candidate: research its actual
 sector by hand (and its official index membership, if any) before deciding
