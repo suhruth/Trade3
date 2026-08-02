@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
 rank_sectors.py — the top-of-funnel sector-rotation step. Run this FIRST every
-weekend and month-end: it ranks the 17 key NSE sectoral indexes by real index
-data and classifies each on a Relative-Rotation-Graph (RRG) quadrant, so you can
-see which sectors are leading now and which are *improving* (about to lead).
-Only then do you hunt for stocks inside the strong sectors.
+weekend and month-end: it ranks the key NSE sectoral indexes (see SECTORS below)
+by real index data and classifies each on a Relative-Rotation-Graph (RRG)
+quadrant, so you can see which sectors are leading now and which are
+*improving* (about to lead). Only then do you hunt for stocks inside the
+strong sectors.
 
 Source: the archived NSE all-indices close files (data/indices/, from
-archive_indices.py) — official index closes, not a watchlist proxy. Every one of
-the 17 sectors is ranked, even ones you hold no stocks in yet.
+archive_indices.py) — official index closes, not a watchlist proxy. Every
+sector in SECTORS is ranked, even ones you hold no stocks in yet.
 
 For each sector it computes (all mechanical):
   - ret_1m/3m/6m_pct : index return over 21 / 63 / 126 sessions
@@ -53,21 +54,26 @@ REPO = Path(__file__).resolve().parent.parent
 IDX_DIR = REPO / "data" / "indices"
 JOURNAL = REPO / "journal"
 
-# The 17 key sectoral indexes (docs/Sectors.jpg), mapped from the friendly label
-# we display to the EXACT "Index Name" string inside ind_close_all_*.csv.
+# The key sectoral indexes (docs/Sectors.jpg plus 4 added to cover watchlist
+# sectors that had no tracked index), mapped from the friendly label we
+# display to the EXACT "Index Name" string inside ind_close_all_*.csv.
 SECTORS = {
     "Nifty Auto":              "Nifty Auto",
     "Nifty Bank":              "Nifty Bank",
+    "Nifty Capital Goods":     "Nifty Capital Goods",
+    "Nifty Cement":            "Nifty Cement",
     "Nifty Commodities":       "Nifty Commodities",
     "Nifty Consumption":       "Nifty India Consumption",
     "Nifty CPSE":              "Nifty CPSE",
     "Nifty Energy":            "Nifty Energy",
     "Nifty Fin Service":       "Nifty Financial Services",
     "Nifty FMCG":              "Nifty FMCG",
+    "Nifty Healthcare":        "Nifty Healthcare Index",
     "Nifty Infra":             "Nifty Infrastructure",
     "Nifty IT":                "Nifty IT",
     "Nifty Media":             "Nifty Media",
     "Nifty Metal":             "Nifty Metal",
+    "Nifty Oil & Gas":         "Nifty Oil & Gas",
     "Nifty Pharma":            "Nifty Pharma",
     "Nifty PSE":               "Nifty PSE",
     "Nifty PSU Bank":          "Nifty PSU Bank",
@@ -272,7 +278,7 @@ def build_rows(closes):
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Rank the 17 NSE sectoral indexes (RP + RRG + Stage 2).")
+    ap = argparse.ArgumentParser(description="Rank the NSE sectoral indexes in SECTORS (RP + RRG + Stage 2).")
     ap.add_argument("--month", help="target journal month YYYY-MM (default: current month)")
     ap.add_argument("--out", type=Path, help="write to this path instead of the month's sectors.csv")
     args = ap.parse_args()

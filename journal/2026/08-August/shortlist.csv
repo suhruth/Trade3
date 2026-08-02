@@ -1,7 +1,10 @@
 symbol,sector,quadrant,score_100,stage2_pts,stage5_pts,stage6_pts,stage7_pts,stage8_pts,pattern,pivot,stages_covered,score_conf,liquid
 BALKRISIND,Nifty Auto,Leading,75.4,10.0,11.0,11.2,0.0,15.0,Double Bottom,2287.0,5/9,HIGH,Y
+DEEPINDS,Nifty Oil & Gas,Improving,63.2,0.0,11.0,15.0,0.0,15.0,Double Bottom,543.4,5/9,HIGH,N
+CONCORDBIO,Nifty Healthcare,Leading,59.3,10.0,11.0,11.2,7.1,0.0,,,5/9,HIGH,N
 ASHOKLEY,Nifty Auto,Leading,58.2,10.0,6.0,0.0,10.0,12.3,Trendline/Resistance Breakout,167.55,5/9,HIGH,Y
 TVSMOTOR,Nifty Auto,Leading,50.8,10.0,9.0,11.2,2.9,0.0,,,5/9,HIGH,Y
+LALPATHLAB,Nifty Healthcare,Leading,45.8,10.0,5.0,15.0,0.0,0.0,,,5/9,HIGH,Y
 SONACOMS,Nifty Auto,Leading,40.7,10.0,0.0,15.0,2.9,0.0,,,5/9,HIGH,Y
 MPHASIS,Nifty IT,Leading,40.0,7.0,5.0,0.0,5.7,8.2,Double Bottom,2430.5,5/9,HIGH,Y
 TORNTPHARM,Nifty Pharma,Leading,37.3,10.0,4.0,5.0,5.7,0.0,,,5/9,HIGH,Y
