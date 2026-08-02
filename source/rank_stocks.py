@@ -14,9 +14,9 @@ THE BRIDGE PROBLEM this script exists to fix: watchlist.csv stores each stock's
 sector as the exact NSE index name (e.g. "Nifty Financial Services"), while
 sectors.csv (rank_sectors.py's output) keys its rows on the SECTORS dict's
 FRIENDLY labels (e.g. "Nifty Fin Service") — a naive string join silently
-fails for the sectors where those two diverge. Two watchlist labels (Cement,
-Nifty Capital Goods) don't correspond to any of the 17 ranked indexes at all;
-those stocks are scored on Stages 5/7/8 only and flagged, never hard-failed.
+fails for the sectors where those two diverge. A watchlist label that doesn't
+correspond to any of the 41 tracked indexes (SECTORS in rank_sectors.py) is
+scored on Stages 5/7/8 only and flagged, never hard-failed.
 
 Stages 1/3/4/9 are NOT computed here — they need data this repo doesn't have
 yet (Nifty-EMA regime, Screener fundamentals). Per the model's own

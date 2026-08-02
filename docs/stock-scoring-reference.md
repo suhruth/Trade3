@@ -20,9 +20,11 @@ rows on the `SECTORS` dict's *friendly* labels (e.g. `Nifty Fin Service`). A nai
 string join between the two silently fails for every sector where those diverge.
 `rank_stocks.py` resolves this with a normalized reverse lookup over `SECTORS`
 (matching both the dict's keys and values), writing the resolved key to
-`sector_canon`. Two watchlist labels — `Cement`, `Nifty Capital Goods` — don't
-correspond to any of the 17 ranked indexes at all; those stocks get `sector_canon`
-left blank rather than a hard failure, with a warning printed at run time.
+`sector_canon`. A watchlist label that doesn't correspond to any of the 41
+tracked indexes (`SECTORS` in `rank_sectors.py`) gets `sector_canon` left blank
+rather than a hard failure, with a warning printed at run time — every current
+watchlist label maps to a tracked index as of the last `SECTORS` expansion, but
+this stays a soft warning for whenever a future label doesn't.
 
 ## Header
 
@@ -209,10 +211,12 @@ volume dry-up and tight base, quiet-accumulation and vol-contraction unavailable
 
 - **`sector_canon` and everything downstream of it** (`sector_rank`,
   `sector_quadrant`, `stage2_pts`, `rs_sector`) are blank for any watchlist stock
-  whose sector label doesn't bridge to one of the 17 tracked indexes — currently
-  `Cement` and `Nifty Capital Goods`. This is a **data gap, not a zero** — those
-  stocks still get scored on Stage 5, Stage 7, and the Stage-6 criteria that
-  don't need a sector, just with fewer available points and a lower `score_conf`.
+  whose sector label doesn't bridge to one of the 41 tracked indexes (`SECTORS`
+  in `rank_sectors.py`) — none today, but this stays a live code path for
+  whenever a future label doesn't map. This is a **data gap, not a zero** —
+  those stocks still get scored on Stage 5, Stage 7, and the Stage-6 criteria
+  that don't need a sector, just with fewer available points and a lower
+  `score_conf`.
 - **`rvol`/`deliv_surge`/`vol_persist`/`close_range_pct`** are blank when there
   isn't enough trailing history yet, or (for delivery) when NSE published a
   blank/`-` delivery % for that session.

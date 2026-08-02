@@ -113,7 +113,7 @@ LOOKBACK_3M = 63     # ~ 3 months
 LOOKBACK_6M = 126    # ~ 6 months
 RS_LOOKBACK = 20     # sessions for RS momentum ("above where it sat 20 sessions ago")
 RS_AVG = 50          # sessions for the RS line's own moving average (acceleration test)
-TOP_N = 5            # "top-5 of ~17" leadership band (Stage 2)
+TOP_N = 5            # "top-5 of ~41" leadership band (Stage 2)
 READ_FILES = LOOKBACK_6M + 3
 
 OUT_HEADER = [

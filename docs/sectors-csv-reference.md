@@ -1,7 +1,7 @@
 # `sectors.csv` — column reference
 
 Quick reference for the sector-ranking output produced by `source/rank_sectors.py`
-(ranks the 17 key NSE sectoral indexes from official `ind_close_all` index data).
+(ranks the 41 tracked NSE sectoral/thematic indexes — `rank_sectors.py`'s `SECTORS` map — from official `ind_close_all` index data).
 One row per sector; rows ordered by `rank` (strongest first).
 
 **Header:**
@@ -12,7 +12,7 @@ One row per sector; rows ordered by `rank` (strongest first).
 
 | # | Column | What it is | How it's computed | Pharma |
 |---|---|---|---|---|
-| 1 | **sector** | Which of the 17 NSE sectoral indexes | friendly label (maps to the exact NSE index name internally) | Nifty Pharma |
+| 1 | **sector** | Which of the 41 tracked NSE sectoral/thematic indexes | friendly label (maps to the exact NSE index name internally) | Nifty Pharma |
 | 2 | **rank** | Overall strength rank, 1 = strongest | ordered by `rp_3m` (relative strength vs Nifty, 3-month) | 1 |
 | 3 | **ret_1m_pct** | **Absolute** price return, 1 month | index change over ~21 sessions | +2.66% |
 | 4 | **ret_3m_pct** | Absolute return, 3 months | over ~63 sessions | +14.24% |

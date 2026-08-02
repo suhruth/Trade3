@@ -3,9 +3,10 @@
 archive_indices.py — nightly archiver for NSE's all-indices daily close file.
 
 Downloads `ind_close_all_DDMMYYYY.csv` — the official end-of-day close for EVERY
-NSE index, including the 17 key sectoral indexes (Nifty Auto, Bank, IT, Pharma,
-…) and Nifty 50 itself. This is the top-of-funnel feed for the sector-rotation
-layer: rank_sectors.py reads these files to rank sectors and flag emerging ones.
+NSE index, including the 41 sectoral/thematic indexes rank_sectors.py tracks
+(Nifty Auto, Bank, IT, Pharma, …) and Nifty 50 itself. This is the top-of-funnel
+feed for the sector-rotation layer: rank_sectors.py reads these files to rank
+sectors and flag emerging ones.
 
 Unlike the security bhavcopy (delivery data — no backfill), this index file IS
 historically available, so `--from`/`--to` can backfill months of history in one
