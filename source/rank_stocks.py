@@ -176,7 +176,6 @@ V4_TOTAL_STAGES = 9
 # both routinely available; retune again then.
 CONF_HIGH, CONF_MED = 54, 43
 
-SHORTLIST_N = 15
 SHORTLIST_QUADRANTS = ("Leading", "Improving")
 SHORTLIST_HEADER = ("symbol", "sector", "quadrant", "score_100",
                      "stage2_pts", "stage5_pts", "stage6_pts", "stage7_pts", "stage8_pts",
@@ -365,9 +364,12 @@ def read_universe(path: Path):
 
 
 def write_shortlist(path: Path, shortlist, universe):
-    """Write the printed Buy Watchlist (Leading/Improving sectors, top
-    SHORTLIST_N by score_100) to its own CSV so it survives past the console,
-    same rows/order as the §4 printout."""
+    """Write the printed Buy Watchlist (every Leading/Improving-sector
+    watchlist stock, sorted by score_100 -- not truncated to a top-N: a
+    stock Stage 8 couldn't find a pattern on is scored lower, per Zanger
+    Rule #1, but must stay visible here for manual chart review, not get
+    cut off the list) to its own CSV so it survives past the console, same
+    rows/order as the §4 printout."""
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(SHORTLIST_HEADER)
@@ -1337,10 +1339,14 @@ def main() -> int:
     print()
 
     # ---- §4 Buy Watchlist ----
+    # Every Leading/Improving watchlist stock, not just a top-N cutoff: a
+    # Stage 8 "no pattern" zero (Zanger Rule #1) pushes a stock DOWN this
+    # list, but must never remove it -- it's still worth a manual chart
+    # check, just not yet at a mechanical entry trigger.
     shortlist = sorted(
         (r for r in rows if r["sector_quadrant"] in SHORTLIST_QUADRANTS),
-        key=lambda r: r["score_100"], reverse=True)[:SHORTLIST_N]
-    print(f"Buy Watchlist (Leading/Improving sectors, top {SHORTLIST_N} by score_100):")
+        key=lambda r: r["score_100"], reverse=True)
+    print(f"Buy Watchlist (Leading/Improving sectors, {len(shortlist)} stocks, by score_100):")
     print(f"{'symbol':<12}{'sector':<20}{'quad':<11}{'score':>7}{'s2':>5}{'s5':>6}{'s6':>6}{'s7':>6}{'s8':>6}"
           f"{'cov':>6}  conf  pattern")
     for r in shortlist:

@@ -241,12 +241,17 @@ volume dry-up and tight base, quiet-accumulation and vol-contraction unavailable
 
 Hunt inside `sector_quadrant ∈ {Leading, Improving}` — same rule as
 `sectors.csv` (see `docs/sectors-csv-reference.md`). `rank_stocks.py` prints a
-ranked Buy Watchlist restricted to exactly that filter, sorted by `score_100`,
-top 15, and saves the same rows/order to `journal/<month>/shortlist.csv`.
-Treat `score_conf = LOW` as "look at this by hand before trusting the
-number," not as a verdict on the stock. Remember `score_100` is not a full v4
-score — until Stages 1/3/4/9 exist, it's a projection from whatever subset
-was actually measured that run. A non-blank `pattern` with `close_above_pivot
+ranked Buy Watchlist restricted to exactly that filter, sorted by `score_100`
+— **every** matching watchlist stock, not just a top-N cutoff — and saves the
+same rows/order to `journal/<month>/shortlist.csv`. This is deliberate: a
+Stage 8 "no pattern" zero (see the Zanger Rule #1 note above) pushes a stock
+down this ranking, but a stock worth quietly accumulating on Stage 7 shouldn't
+disappear from the list just because it hasn't broken out yet — it belongs on
+your chart-review list, not silently cut. Treat `score_conf = LOW` as "look at
+this by hand before trusting the number," not as a verdict on the stock.
+Remember `score_100` is not a full v4 score — until Stages 1/3/4/9 exist, it's
+a projection from whatever subset was actually measured that run. A non-blank
+`pattern` with `close_above_pivot
 = N` is a "watch for the breakout" case, not a "buy now" one — check both
 columns together, not `pattern` alone.
 
