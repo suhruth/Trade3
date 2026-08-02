@@ -54,31 +54,54 @@ REPO = Path(__file__).resolve().parent.parent
 IDX_DIR = REPO / "data" / "indices"
 JOURNAL = REPO / "journal"
 
-# The key sectoral indexes (docs/Sectors.jpg plus 4 added to cover watchlist
-# sectors that had no tracked index), mapped from the friendly label we
-# display to the EXACT "Index Name" string inside ind_close_all_*.csv.
+# The key sectoral indexes (docs/Sectors.jpg plus names added to cover
+# watchlist sectors that had no tracked index), mapped from the friendly
+# label we display to the EXACT "Index Name" string inside
+# ind_close_all_*.csv. Where the two differ (e.g. NSE's "Nifty Healthcare
+# Index" vs. the shorter label people actually type), the key is the
+# label form, the value is the verified real index name.
 SECTORS = {
-    "Nifty Auto":              "Nifty Auto",
-    "Nifty Bank":              "Nifty Bank",
-    "Nifty Capital Goods":     "Nifty Capital Goods",
-    "Nifty Cement":            "Nifty Cement",
-    "Nifty Commodities":       "Nifty Commodities",
-    "Nifty Consumption":       "Nifty India Consumption",
-    "Nifty CPSE":              "Nifty CPSE",
-    "Nifty Energy":            "Nifty Energy",
-    "Nifty Fin Service":       "Nifty Financial Services",
-    "Nifty FMCG":              "Nifty FMCG",
-    "Nifty Healthcare":        "Nifty Healthcare Index",
-    "Nifty Infra":             "Nifty Infrastructure",
-    "Nifty IT":                "Nifty IT",
-    "Nifty Media":             "Nifty Media",
-    "Nifty Metal":             "Nifty Metal",
-    "Nifty Oil & Gas":         "Nifty Oil & Gas",
-    "Nifty Pharma":            "Nifty Pharma",
-    "Nifty PSE":               "Nifty PSE",
-    "Nifty PSU Bank":          "Nifty PSU Bank",
-    "Nifty Realty":            "Nifty Realty",
-    "Nifty Serv Sector":       "Nifty Services Sector",
+    "Nifty Auto":                          "Nifty Auto",
+    "Nifty Bank":                          "Nifty Bank",
+    "Nifty Capital Goods":                 "Nifty Capital Goods",
+    "Nifty Cement":                        "Nifty Cement",
+    "Nifty Chemicals":                     "Nifty Chemicals",
+    "Nifty Commercial & Transport Services": "Nifty Commercial & Transport Services",
+    "Nifty Commodities":                   "Nifty Commodities",
+    "Nifty Construction":                  "Nifty Construction",
+    "Nifty Consumer Durables":             "Nifty Consumer Durables",
+    "Nifty Consumer Services":             "Nifty Consumer Services",
+    "Nifty Consumption":                   "Nifty India Consumption",
+    "Nifty CPSE":                          "Nifty CPSE",
+    "Nifty Energy":                        "Nifty Energy",
+    "Nifty Fin Service":                   "Nifty Financial Services",
+    "Nifty Financial Services 25/50":      "Nifty Financial Services 25/50",
+    "Nifty Financial Services Ex Bank":    "Nifty Financial Services Ex-Bank",
+    "Nifty FMCG":                          "Nifty FMCG",
+    "Nifty Healthcare":                    "Nifty Healthcare Index",
+    "Nifty Hospitals":                     "Nifty Hospitals",
+    "Nifty Housing Finance":               "Nifty Housing Finance",
+    "Nifty Infra":                         "Nifty Infrastructure",
+    "Nifty Insurance":                     "Nifty Insurance",
+    "Nifty IT":                            "Nifty IT",
+    "Nifty Media":                         "Nifty Media",
+    "Nifty Metal":                         "Nifty Metal",
+    "Nifty MidSmall Financial Services":   "Nifty MidSmall Financial Services",
+    "Nifty MidSmall Healthcare":           "Nifty MidSmall Healthcare",
+    "Nifty MidSmall IT & Telecom":         "Nifty MidSmall IT & Telecom",
+    "Nifty NBFC":                          "Nifty NBFC",
+    "Nifty Oil & Gas":                     "Nifty Oil & Gas",
+    "Nifty Pharma":                        "Nifty Pharma",
+    "Nifty Power":                         "Nifty Power",
+    "Nifty Private Bank":                  "Nifty Private Bank",
+    "Nifty PSE":                           "Nifty PSE",
+    "Nifty PSU Bank":                      "Nifty PSU Bank",
+    "Nifty Realty":                        "Nifty Realty",
+    "Nifty REITs & Realty":                "Nifty REITs & Realty",
+    "Nifty Retail":                        "Nifty Retail",
+    "Nifty Serv Sector":                   "Nifty Services Sector",
+    "Nifty Telecommunications":            "Nifty Telecommunications",
+    "Nifty500 Healthcare":                 "Nifty500 Healthcare",
 }
 BENCHMARK = "Nifty 50"  # RP baseline and RS-line denominator
 

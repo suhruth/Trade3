@@ -1,25 +1,25 @@
 symbol,sector,quadrant,score_100,stage2_pts,stage5_pts,stage6_pts,stage7_pts,stage8_pts,pattern,pivot,stages_covered,score_conf,liquid
-BALKRISIND,Nifty Auto,Leading,75.4,10.0,11.0,11.2,0.0,15.0,Double Bottom,2287.0,5/9,HIGH,Y
+BALKRISIND,Nifty Auto,Leading,70.2,7.0,11.0,11.2,0.0,15.0,Double Bottom,2287.0,5/9,HIGH,Y
 DEEPINDS,Nifty Oil & Gas,Improving,63.2,0.0,11.0,15.0,0.0,15.0,Double Bottom,543.4,5/9,HIGH,N
-CONCORDBIO,Nifty Healthcare,Leading,59.3,10.0,11.0,11.2,7.1,0.0,,,5/9,HIGH,N
-ASHOKLEY,Nifty Auto,Leading,58.2,10.0,6.0,0.0,10.0,12.3,Trendline/Resistance Breakout,167.55,5/9,HIGH,Y
-TVSMOTOR,Nifty Auto,Leading,50.8,10.0,9.0,11.2,2.9,0.0,,,5/9,HIGH,Y
-LALPATHLAB,Nifty Healthcare,Leading,45.8,10.0,5.0,15.0,0.0,0.0,,,5/9,HIGH,Y
-SONACOMS,Nifty Auto,Leading,40.7,10.0,0.0,15.0,2.9,0.0,,,5/9,HIGH,Y
+ASHOKLEY,Nifty Auto,Leading,52.7,7.0,6.0,0.0,10.0,12.3,Trendline/Resistance Breakout,167.55,5/9,HIGH,Y
+CONCORDBIO,Nifty Healthcare,Leading,47.5,3.0,11.0,11.2,7.1,0.0,,,5/9,HIGH,N
+TVSMOTOR,Nifty Auto,Leading,45.8,7.0,9.0,11.2,2.9,0.0,,,5/9,HIGH,Y
 MPHASIS,Nifty IT,Leading,40.0,7.0,5.0,0.0,5.7,8.2,Double Bottom,2430.5,5/9,HIGH,Y
-TORNTPHARM,Nifty Pharma,Leading,37.3,10.0,4.0,5.0,5.7,0.0,,,5/9,HIGH,Y
-BIOCON,Nifty Pharma,Leading,36.4,10.0,0.0,0.0,5.7,8.2,Trendline/Resistance Breakout,447.15,5/9,HIGH,Y
-ALKEM,Nifty Pharma,Leading,31.6,10.0,0.0,0.0,2.9,6.9,Trendline/Resistance Breakout,5789.0,5/9,HIGH,Y
+SONACOMS,Nifty Auto,Leading,35.6,7.0,0.0,15.0,2.9,0.0,,,5/9,HIGH,Y
+LALPATHLAB,Nifty Healthcare,Leading,33.9,3.0,5.0,15.0,0.0,0.0,,,5/9,HIGH,Y
 PERSISTENT,Nifty IT,Leading,30.5,7.0,7.0,5.0,0.0,0.0,,,5/9,HIGH,Y
+TORNTPHARM,Nifty Pharma,Leading,30.5,6.0,4.0,5.0,5.7,0.0,,,5/9,HIGH,Y
+BIOCON,Nifty Pharma,Leading,29.1,6.0,0.0,0.0,5.7,8.2,Trendline/Resistance Breakout,447.15,5/9,HIGH,Y
 COFORGE,Nifty IT,Leading,28.8,7.0,3.0,8.8,0.0,0.0,,,5/9,HIGH,Y
-LUPIN,Nifty Pharma,Leading,28.8,10.0,3.0,0.0,5.7,0.0,,,5/9,HIGH,Y
 JINDALSTEL,Nifty Metal,Improving,25.5,0.0,0.0,5.0,5.7,8.2,Trendline/Resistance Breakout,1259.0,5/9,HIGH,Y
-BOSCHLTD,Nifty Auto,Leading,25.4,10.0,0.0,0.0,7.1,0.0,,,5/9,HIGH,Y
-MRF,Nifty Auto,Leading,23.7,10.0,0.0,0.0,5.7,0.0,,,5/9,HIGH,Y
-IPCALAB,Nifty Pharma,Leading,20.3,10.0,0.0,0.0,2.9,0.0,,,5/9,HIGH,Y
+ALKEM,Nifty Pharma,Leading,24.6,6.0,0.0,0.0,2.9,6.9,Trendline/Resistance Breakout,5789.0,5/9,HIGH,Y
+LUPIN,Nifty Pharma,Leading,22.0,6.0,3.0,0.0,5.7,0.0,,,5/9,HIGH,Y
+BOSCHLTD,Nifty Auto,Leading,20.3,7.0,0.0,0.0,7.1,0.0,,,5/9,HIGH,Y
 LTTS,Nifty IT,Leading,18.6,7.0,2.0,0.0,2.9,0.0,,,5/9,HIGH,Y
+MRF,Nifty Auto,Leading,18.6,7.0,0.0,0.0,5.7,0.0,,,5/9,HIGH,Y
 KPITTECH,Nifty IT,Leading,16.9,7.0,3.0,0.0,0.0,0.0,,,5/9,HIGH,Y
 RATNAMANI,Nifty Metal,Improving,16.4,0.0,0.0,0.0,4.3,8.2,Double Bottom,2848.0,5/9,HIGH,N
 WELCORP,Nifty Metal,Improving,15.3,0.0,0.0,8.8,2.9,0.0,,,5/9,HIGH,Y
+IPCALAB,Nifty Pharma,Leading,13.6,6.0,0.0,0.0,2.9,0.0,,,5/9,HIGH,Y
 NMDC,Nifty Metal,Improving,11.9,0.0,0.0,0.0,10.0,0.0,,,5/9,HIGH,Y
 MOIL,Nifty Metal,Improving,5.1,0.0,3.0,0.0,0.0,0.0,,,5/9,HIGH,N
