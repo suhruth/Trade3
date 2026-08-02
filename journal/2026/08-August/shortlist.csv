@@ -1,22 +1,22 @@
 symbol,sector,quadrant,score_100,stage2_pts,stage5_pts,stage6_pts,stage7_pts,stage8_pts,pattern,pivot,stages_covered,score_conf,liquid
-BALKRISIND,Nifty Auto,Leading,75.4,10.0,11.0,11.2,0.0,15.0,Double Bottom,2287.0,5/9,HIGH,Y
-ASHOKLEY,Nifty Auto,Leading,61.8,10.0,8.0,0.0,10.0,12.3,Trendline/Resistance Breakout,167.55,5/9,HIGH,Y
-TVSMOTOR,Nifty Auto,Leading,50.8,10.0,9.0,11.2,2.9,0.0,,,5/9,HIGH,Y
-MPHASIS,Nifty IT,Improving,40.0,7.0,5.0,0.0,5.7,8.2,Double Bottom,2430.5,5/9,HIGH,Y
-TORNTPHARM,Nifty Pharma,Leading,37.3,10.0,4.0,5.0,5.7,0.0,,,5/9,HIGH,Y
-BIOCON,Nifty Pharma,Leading,36.4,10.0,0.0,0.0,5.7,8.2,Trendline/Resistance Breakout,447.15,5/9,HIGH,Y
-ALKEM,Nifty Pharma,Leading,31.6,10.0,0.0,0.0,2.9,6.9,Trendline/Resistance Breakout,5789.0,5/9,HIGH,Y
-PERSISTENT,Nifty IT,Improving,30.5,7.0,7.0,5.0,0.0,0.0,,,5/9,HIGH,Y
-LUPIN,Nifty Pharma,Leading,28.8,10.0,3.0,0.0,5.7,0.0,,,5/9,HIGH,Y
-BOSCHLTD,Nifty Auto,Leading,25.4,10.0,0.0,0.0,7.1,0.0,,,5/9,HIGH,Y
-COFORGE,Nifty IT,Improving,23.7,7.0,3.0,5.0,0.0,0.0,,,5/9,HIGH,Y
-MRF,Nifty Auto,Leading,23.7,10.0,0.0,0.0,5.7,0.0,,,5/9,HIGH,Y
-IPCALAB,Nifty Pharma,Leading,20.3,10.0,0.0,0.0,2.9,0.0,,,5/9,HIGH,Y
-LTTS,Nifty IT,Improving,18.6,7.0,2.0,0.0,2.9,0.0,,,5/9,HIGH,Y
-GODREJCP,Nifty FMCG,Improving,18.6,0.0,0.0,5.0,10.0,0.0,,,5/9,HIGH,Y
-KPITTECH,Nifty IT,Improving,16.9,7.0,3.0,0.0,0.0,0.0,,,5/9,HIGH,Y
-TATACONSUM,Nifty FMCG,Improving,16.9,0.0,3.0,0.0,10.0,0.0,,,5/9,HIGH,Y
-MARICO,Nifty FMCG,Improving,15.3,0.0,3.0,5.0,2.9,0.0,,,5/9,HIGH,Y
-COLPAL,Nifty FMCG,Improving,15.3,0.0,3.0,5.0,2.9,0.0,,,5/9,HIGH,Y
-DMART,Nifty FMCG,Improving,3.4,0.0,0.0,0.0,2.9,0.0,,,5/9,HIGH,Y
-EMAMILTD,Nifty FMCG,Improving,3.4,0.0,0.0,0.0,2.9,0.0,,,5/9,HIGH,Y
+BALKRISIND,Nifty Auto,Leading,75.4,10,11,11.2,0,15,Double Bottom,2287,05-Sep,HIGH,Y
+ASHOKLEY,Nifty Auto,Leading,61.8,10,8,0,10,12.3,Trendline/Resistance Breakout,167.55,05-Sep,HIGH,Y
+TVSMOTOR,Nifty Auto,Leading,50.8,10,9,11.2,2.9,0,,,05-Sep,HIGH,Y
+SONACOMS,Nifty Auto,Leading,40.7,10,0,15,2.9,0,,,05-Sep,HIGH,Y
+MPHASIS,Nifty IT,Leading,40,7,5,0,5.7,8.2,Double Bottom,2430.5,05-Sep,HIGH,Y
+TORNTPHARM,Nifty Pharma,Leading,37.3,10,4,5,5.7,0,,,05-Sep,HIGH,Y
+BIOCON,Nifty Pharma,Leading,36.4,10,0,0,5.7,8.2,Trendline/Resistance Breakout,447.15,05-Sep,HIGH,Y
+ALKEM,Nifty Pharma,Leading,31.6,10,0,0,2.9,6.9,Trendline/Resistance Breakout,5789,05-Sep,HIGH,Y
+PERSISTENT,Nifty IT,Leading,30.5,7,7,5,0,0,,,05-Sep,HIGH,Y
+COFORGE,Nifty IT,Leading,28.8,7,3,8.8,0,0,,,05-Sep,HIGH,Y
+LUPIN,Nifty Pharma,Leading,28.8,10,3,0,5.7,0,,,05-Sep,HIGH,Y
+JINDALSTEL,Nifty Metal,Improving,25.5,0,0,5,5.7,8.2,Trendline/Resistance Breakout,1259,05-Sep,HIGH,Y
+BOSCHLTD,Nifty Auto,Leading,25.4,10,0,0,7.1,0,,,05-Sep,HIGH,Y
+MRF,Nifty Auto,Leading,23.7,10,0,0,5.7,0,,,05-Sep,HIGH,Y
+IPCALAB,Nifty Pharma,Leading,20.3,10,0,0,2.9,0,,,05-Sep,HIGH,Y
+LTTS,Nifty IT,Leading,18.6,7,2,0,2.9,0,,,05-Sep,HIGH,Y
+KPITTECH,Nifty IT,Leading,16.9,7,3,0,0,0,,,05-Sep,HIGH,Y
+RATNAMANI,Nifty Metal,Improving,16.4,0,0,0,4.3,8.2,Double Bottom,2848,05-Sep,HIGH,N
+WELCORP,Nifty Metal,Improving,15.3,0,0,8.8,2.9,0,,,05-Sep,HIGH,Y
+NMDC,Nifty Metal,Improving,11.9,0,0,0,10,0,,,05-Sep,HIGH,Y
+MOIL,Nifty Metal,Improving,5.1,0,3,0,0,0,,,05-Sep,HIGH,N
