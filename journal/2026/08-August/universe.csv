@@ -1,51 +1,91 @@
 symbol,sector,mkt_cap_cr,roce_gt15,roe_gt15,sales_gr_gt10,profit_gr_gt10,de_lt0_5,pledge_zero,ocf_positive,stage3_pts,median_trdval_cr,liquid,ret_1m_pct,ret_3m_pct,tier,sector_canon,sector_rank,sector_quadrant,stage2_pts,rvol,rvol_pts,deliv_surge,vol_persist,close_range_pct,stage5_pts,rs_nifty,rs_sector,mom_pctile,stage6_pts,vol_contraction,vol_dryup,tight_base,quiet_accum,stage7_pts,pattern,pivot,vol_confirm,close_above_pivot,follow_through,no_overhead_supply,stage8_pts,score_pts,pts_available,score_100,stages_covered,score_conf
-SONACOMS,Nifty Auto,,,,,,,,,,170.2,Y,16.17,33.15,,Nifty Auto,8,Leading,7.0,0.97,0,1.13,1,66.2,0.0,Y,Y,87.8,15.0,,N,N,Y,2.9,,,,,,,0.0,24.9,59,35.6,5/9,HIGH
-DEEPINDS,Nifty Oil & Gas,,,,,,,,,,10.5,N,31.53,24.47,,Nifty Oil & Gas,36,Improving,0.0,4.21,6,0.73,5,93.6,11.0,Y,Y,81.9,15.0,,N,N,N,0.0,Double Bottom,543.4,Y,Y,Y,,15.0,41.0,57,63.2,5/9,HIGH
+SONACOMS,Nifty Auto,,,,,,,,,,170.2,Y,16.17,33.15,,Nifty Auto,8,Leading,7.0,0.97,0,1.13,1,66.2,0.0,Y,Y,87.7,15.0,,N,N,Y,2.9,,,,,,,0.0,24.9,59,35.6,5/9,HIGH
+DEEPINDS,Nifty Oil & Gas,,,,,,,,,,10.5,N,31.53,24.47,,Nifty Oil & Gas,36,Improving,0.0,4.21,6,0.73,5,93.6,11.0,Y,Y,82.0,15.0,,N,N,N,0.0,Double Bottom,543.4,Y,Y,Y,,15.0,41.0,57,63.2,5/9,HIGH
 LALPATHLAB,Nifty Healthcare,,,,,,,,,,52.0,Y,15.45,23.98,,Nifty Healthcare,6,Leading,3.0,0.7,0,1.0,3,82.8,5.0,Y,Y,81.4,15.0,,N,N,N,0.0,,,,,,,0.0,23.0,59,33.9,5/9,HIGH
-CONCORDBIO,Nifty Healthcare,,,,,,,,,,11.9,N,10.47,19.92,,Nifty Healthcare,6,Leading,3.0,5.79,6,0.85,3,91.1,11.0,Y,Y,76.1,11.2,,Y,N,Y,7.1,,,,,,,0.0,32.4,59,47.5,5/9,HIGH
+CONCORDBIO,Nifty Healthcare,,,,,,,,,,11.9,N,10.47,19.92,,Nifty Healthcare,6,Leading,3.0,5.79,6,0.85,3,91.1,11.0,Y,Y,76.0,11.2,,Y,N,Y,7.1,,,,,,,0.0,32.4,59,47.5,5/9,HIGH
 UJJIVANSFB,Nifty Financial Services,,,,,,,,,,127.0,Y,16.86,16.19,,Nifty Fin Service,20,Weakening,0.0,0.61,0,1.12,2,64.0,0.0,N,Y,70.4,5.0,,N,N,Y,2.9,,,,,,,0.0,7.9,59,10.2,5/9,HIGH
-IDFCFIRSTB,Nifty Financial Services,,,,,,,,,,124.7,Y,6.49,23.17,,Nifty Fin Service,20,Weakening,0.0,0.54,0,0.84,2,13.8,0.0,N,Y,80.3,8.8,,N,Y,N,2.9,,,,,,,0.0,11.6,59,15.3,5/9,HIGH
-RBLBANK,Nifty Financial Services,,,,,,,,,,196.3,Y,5.63,12.78,,Nifty Fin Service,20,Weakening,0.0,0.82,0,1.09,1,28.4,0.0,N,Y,64.7,5.0,,N,Y,Y,5.7,Trendline/Resistance Breakout,382.35,N,N,,,8.2,18.9,55,25.5,5/9,HIGH
-BANKINDIA,Nifty Financial Services,,,,,,,,,,126.7,Y,-4.84,-0.45,,Nifty Fin Service,20,Weakening,0.0,0.56,0,1.04,1,59.7,0.0,N,N,35.8,0.0,,N,Y,Y,5.7,,,,,,,0.0,5.7,59,6.8,5/9,HIGH
+IDFCFIRSTB,Nifty Financial Services,,,,,,,,,,124.7,Y,6.49,23.17,,Nifty Fin Service,20,Weakening,0.0,0.54,0,0.84,2,13.8,0.0,N,Y,80.4,8.8,,N,Y,N,2.9,,,,,,,0.0,11.6,59,15.3,5/9,HIGH
+RBLBANK,Nifty Financial Services,,,,,,,,,,196.3,Y,5.63,12.78,,Nifty Fin Service,20,Weakening,0.0,0.82,0,1.09,1,28.4,0.0,N,Y,64.8,5.0,,N,Y,Y,5.7,Trendline/Resistance Breakout,382.35,N,N,,,8.2,18.9,55,25.5,5/9,HIGH
+BANKINDIA,Nifty Financial Services,,,,,,,,,,126.7,Y,-4.84,-0.45,,Nifty Fin Service,20,Weakening,0.0,0.56,0,1.04,1,59.7,0.0,N,N,36.1,0.0,,N,Y,Y,5.7,,,,,,,0.0,5.7,59,6.8,5/9,HIGH
 MUTHOOTFIN,Nifty Financial Services,,,,,,,,,,246.4,Y,5.76,-9.48,,Nifty Fin Service,20,Weakening,0.0,1.49,2,1.08,2,80.6,4.0,N,N,14.9,0.0,,N,Y,Y,5.7,,,,,,,0.0,9.7,59,13.6,5/9,HIGH
-CAMS,Nifty Financial Services,,,,,,,,,,75.6,Y,-0.25,-0.16,,Nifty Fin Service,20,Weakening,0.0,0.89,0,1.22,1,44.1,0.0,N,Y,36.3,5.0,,Y,Y,N,7.1,Double Bottom,836.0,N,N,,,8.2,20.3,55,27.3,5/9,HIGH
-MPHASIS,Nifty IT,,,,,,,,,,156.1,Y,4.32,6.0,,Nifty IT,17,Leading,7.0,0.76,0,0.89,4,92.7,5.0,N,N,50.9,0.0,,N,Y,Y,5.7,Double Bottom,2430.5,N,N,,,8.2,25.9,55,40.0,5/9,HIGH
-COFORGE,Nifty IT,,,,,,,,,,442.1,Y,19.36,47.25,,Nifty IT,17,Leading,7.0,0.92,0,0.99,4,68.8,3.0,N,Y,93.6,8.8,,N,N,N,0.0,,,,,,,0.0,18.8,59,28.8,5/9,HIGH
+CAMS,Nifty Financial Services,,,,,,,,,,75.6,Y,-0.25,-0.16,,Nifty Fin Service,20,Weakening,0.0,0.89,0,1.22,1,44.1,0.0,N,Y,36.6,5.0,,Y,Y,N,7.1,Double Bottom,836.0,N,N,,,8.2,20.3,55,27.3,5/9,HIGH
+MPHASIS,Nifty IT,,,,,,,,,,156.1,Y,4.32,6.0,,Nifty IT,17,Leading,7.0,0.76,0,0.89,4,92.7,5.0,N,N,51.0,0.0,,N,Y,Y,5.7,Double Bottom,2430.5,N,N,,,8.2,25.9,55,40.0,5/9,HIGH
+COFORGE,Nifty IT,,,,,,,,,,442.1,Y,19.36,47.25,,Nifty IT,17,Leading,7.0,0.92,0,0.99,4,68.8,3.0,N,Y,93.7,8.8,,N,N,N,0.0,,,,,,,0.0,18.8,59,28.8,5/9,HIGH
 PERSISTENT,Nifty IT,,,,,,,,,,298.0,Y,21.14,15.21,,Nifty IT,17,Leading,7.0,2.01,2,1.11,3,90.2,7.0,N,Y,68.3,5.0,,N,N,N,0.0,,,,,,,0.0,19.0,59,30.5,5/9,HIGH
-LTTS,Nifty IT,,,,,,,,,,42.6,Y,12.27,-4.93,,Nifty IT,17,Leading,7.0,0.47,0,1.17,0,80.1,2.0,N,N,25.5,0.0,,N,N,Y,2.9,,,,,,,0.0,11.9,59,18.6,5/9,HIGH
+LTTS,Nifty IT,,,,,,,,,,42.6,Y,12.27,-4.93,,Nifty IT,17,Leading,7.0,0.47,0,1.17,0,80.1,2.0,N,N,25.6,0.0,,N,N,Y,2.9,,,,,,,0.0,11.9,59,18.6,5/9,HIGH
 KPITTECH,Nifty IT,,,,,,,,,,207.5,Y,7.09,-22.54,,Nifty IT,17,Leading,7.0,1.11,0,0.66,5,71.6,3.0,N,N,3.2,0.0,,N,N,N,0.0,,,,,,,0.0,10.0,59,16.9,5/9,HIGH
-GAIL,Nifty Energy,,,,,,,,,,103.2,Y,4.1,10.84,,Nifty Energy,38,Lagging,0.0,5.46,6,0.63,4,91.2,11.0,Y,Y,61.7,11.2,,N,Y,Y,5.7,Trendline/Resistance Breakout,178.47,Y,Y,,,15.0,43.0,55,63.6,5/9,HIGH
+GAIL,Nifty Energy,,,,,,,,,,103.2,Y,4.1,10.84,,Nifty Energy,38,Lagging,0.0,5.46,6,0.63,4,91.2,11.0,Y,Y,61.8,11.2,,N,Y,Y,5.7,Trendline/Resistance Breakout,178.47,Y,Y,,,15.0,43.0,55,63.6,5/9,HIGH
 GUJENERGY,Nifty Energy,,,,,,,,,,25.0,Y,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 IGL,Nifty Energy,,,,,,,,,,19.3,N,-2.45,-8.58,,Nifty Energy,38,Lagging,0.0,0.35,0,0.96,0,56.4,0.0,N,N,16.5,0.0,,Y,Y,N,7.1,Double Bottom,175.6,N,N,,,8.2,15.3,55,20.0,5/9,HIGH
-MGL,Nifty Energy,,,,,,,,,,14.2,N,-2.0,-1.15,,Nifty Energy,38,Lagging,0.0,3.1,4,0.73,3,13.8,7.0,N,Y,34.4,5.0,,N,Y,N,2.9,Double Bottom,1252.0,Y,N,,,12.3,27.1,55,40.0,5/9,HIGH
+MGL,Nifty Energy,,,,,,,,,,14.2,N,-2.0,-1.15,,Nifty Energy,38,Lagging,0.0,3.1,4,0.73,3,13.8,7.0,N,Y,34.7,5.0,,N,Y,N,2.9,Double Bottom,1252.0,Y,N,,,12.3,27.1,55,40.0,5/9,HIGH
 MARICO,Nifty FMCG,,,,,,,,,,150.3,Y,1.71,7.86,,Nifty FMCG,35,Lagging,0.0,1.31,0,1.22,3,12.6,3.0,N,Y,55.3,5.0,,N,Y,N,2.9,,,,,,,0.0,10.9,59,15.3,5/9,HIGH
 DMART,Nifty FMCG,,,,,,,,,,216.1,Y,-6.35,-10.04,,Nifty FMCG,35,Lagging,0.0,0.73,0,1.04,2,55.1,0.0,N,N,13.1,0.0,,N,Y,N,2.9,,,,,,,0.0,2.9,59,3.4,5/9,HIGH
 EMAMILTD,Nifty FMCG,,,,,,,,,,18.3,N,-4.51,-11.98,,Nifty FMCG,35,Lagging,0.0,0.87,0,1.03,0,14.1,0.0,N,N,10.3,0.0,,N,Y,N,2.9,,,,,,,0.0,2.9,59,3.4,5/9,HIGH
-GODREJCP,Nifty FMCG,,,,,,,,,,50.1,Y,-0.63,-2.82,,Nifty FMCG,35,Lagging,0.0,1.1,0,1.36,1,72.7,0.0,N,Y,30.0,5.0,,Y,Y,Y,10.0,,,,,,,0.0,15.0,59,18.6,5/9,HIGH
+GODREJCP,Nifty FMCG,,,,,,,,,,50.1,Y,-0.63,-2.82,,Nifty FMCG,35,Lagging,0.0,1.1,0,1.36,1,72.7,0.0,N,Y,30.1,5.0,,Y,Y,Y,10.0,,,,,,,0.0,15.0,59,18.6,5/9,HIGH
 COLPAL,Nifty FMCG,,,,,,,,,,53.9,Y,0.71,-4.72,,Nifty FMCG,35,Lagging,0.0,0.91,0,0.91,4,46.3,3.0,N,Y,25.7,5.0,,N,Y,N,2.9,,,,,,,0.0,10.9,59,15.3,5/9,HIGH
-TATACONSUM,Nifty FMCG,,,,,,,,,,148.2,Y,-2.18,-6.1,,Nifty FMCG,35,Lagging,0.0,1.06,0,1.12,3,11.7,3.0,N,N,22.0,0.0,,Y,Y,Y,10.0,,,,,,,0.0,13.0,59,16.9,5/9,HIGH
-ASHOKLEY,Nifty Auto,,,,,,,,,,222.1,Y,0.88,3.7,,Nifty Auto,8,Leading,7.0,3.31,4,0.94,1,93.1,6.0,N,N,45.0,0.0,,Y,Y,Y,10.0,Trendline/Resistance Breakout,167.55,Y,N,,,12.3,35.3,55,52.7,5/9,HIGH
-TVSMOTOR,Nifty Auto,,,,,,,,,,372.9,Y,18.92,22.03,,Nifty Auto,8,Leading,7.0,2.42,4,1.25,4,90.6,9.0,Y,Y,78.9,11.2,,N,N,Y,2.9,,,,,,,0.0,30.1,59,45.8,5/9,HIGH
-BOSCHLTD,Nifty Auto,,,,,,,,,,89.6,Y,-1.04,14.54,,Nifty Auto,8,Leading,7.0,0.71,0,1.14,2,20.8,0.0,N,N,66.8,0.0,,Y,Y,N,7.1,,,,,,,0.0,14.1,59,20.3,5/9,HIGH
-MRF,Nifty Auto,,,,,,,,,,67.6,Y,0.53,3.51,,Nifty Auto,8,Leading,7.0,0.89,0,1.17,0,9.3,0.0,N,N,44.5,0.0,,N,Y,Y,5.7,,,,,,,0.0,12.7,59,18.6,5/9,HIGH
-BALKRISIND,Nifty Auto,,,,,,,,,,36.7,Y,10.91,13.88,,Nifty Auto,8,Leading,7.0,9.07,6,0.46,3,80.2,11.0,Y,Y,66.3,11.2,,N,N,N,0.0,Double Bottom,2287.0,Y,Y,Y,,15.0,44.2,57,70.2,5/9,HIGH
-LUPIN,Nifty Pharma,,,,,,,,,,171.1,Y,0.64,3.06,,Nifty Pharma,2,Leading,6.0,1.25,0,1.16,4,35.5,3.0,N,N,43.3,0.0,,N,Y,Y,5.7,,,,,,,0.0,14.7,59,22.0,5/9,HIGH
-BIOCON,Nifty Pharma,,,,,,,,,,170.4,Y,1.7,15.6,,Nifty Pharma,2,Leading,6.0,0.33,0,0.98,0,52.3,0.0,N,N,69.1,0.0,,N,Y,Y,5.7,Trendline/Resistance Breakout,447.15,N,N,,,8.2,19.9,55,29.1,5/9,HIGH
+TATACONSUM,Nifty FMCG,,,,,,,,,,148.2,Y,-2.18,-6.1,,Nifty FMCG,35,Lagging,0.0,1.06,0,1.12,3,11.7,3.0,N,N,22.1,0.0,,Y,Y,Y,10.0,,,,,,,0.0,13.0,59,16.9,5/9,HIGH
+ASHOKLEY,Nifty Auto,,,,,,,,,,222.1,Y,0.88,3.7,,Nifty Auto,8,Leading,7.0,3.31,6,0.94,1,93.1,8.0,N,N,45.2,0.0,,Y,Y,Y,10.0,Trendline/Resistance Breakout,167.55,Y,N,,,12.3,37.3,55,56.4,5/9,HIGH
+TVSMOTOR,Nifty Auto,,,,,,,,,,372.9,Y,18.92,22.03,,Nifty Auto,8,Leading,7.0,2.42,4,1.25,4,90.6,9.0,Y,Y,79.0,11.2,,N,N,Y,2.9,,,,,,,0.0,30.1,59,45.8,5/9,HIGH
+BOSCHLTD,Nifty Auto,,,,,,,,,,89.6,Y,-1.04,14.54,,Nifty Auto,8,Leading,7.0,0.71,0,1.14,2,20.8,0.0,N,N,66.9,0.0,,Y,Y,N,7.1,,,,,,,0.0,14.1,59,20.3,5/9,HIGH
+MRF,Nifty Auto,,,,,,,,,,67.6,Y,0.53,3.51,,Nifty Auto,8,Leading,7.0,0.89,0,1.17,0,9.3,0.0,N,N,44.7,0.0,,N,Y,Y,5.7,,,,,,,0.0,12.7,59,18.6,5/9,HIGH
+BALKRISIND,Nifty Auto,,,,,,,,,,36.7,Y,10.91,13.88,,Nifty Auto,8,Leading,7.0,9.07,6,0.46,3,80.2,11.0,Y,Y,66.4,11.2,,N,N,N,0.0,Double Bottom,2287.0,Y,Y,Y,,15.0,44.2,57,70.2,5/9,HIGH
+LUPIN,Nifty Pharma,,,,,,,,,,171.1,Y,0.64,3.06,,Nifty Pharma,2,Leading,6.0,1.25,0,1.16,4,35.5,3.0,N,N,43.4,0.0,,N,Y,Y,5.7,,,,,,,0.0,14.7,59,22.0,5/9,HIGH
+BIOCON,Nifty Pharma,,,,,,,,,,170.4,Y,1.7,15.6,,Nifty Pharma,2,Leading,6.0,0.33,0,0.98,0,52.3,0.0,N,N,69.2,0.0,,N,Y,Y,5.7,Trendline/Resistance Breakout,447.15,N,N,,,8.2,19.9,55,29.1,5/9,HIGH
 ALKEM,Nifty Pharma,,,,,,,,,,58.0,Y,4.56,6.45,,Nifty Pharma,2,Leading,6.0,0.76,0,1.08,1,16.8,0.0,N,N,52.7,0.0,,N,Y,N,2.9,Trendline/Resistance Breakout,5789.0,N,N,N,,6.9,15.8,57,24.6,5/9,HIGH
-IPCALAB,Nifty Pharma,,,,,,,,,,29.5,Y,1.65,13.36,,Nifty Pharma,2,Leading,6.0,0.53,0,0.98,0,17.3,0.0,N,N,65.6,0.0,,N,Y,N,2.9,,,,,,,0.0,8.9,59,13.6,5/9,HIGH
-TORNTPHARM,Nifty Pharma,,,,,,,,,,378.3,Y,9.9,19.83,,Nifty Pharma,2,Leading,6.0,1.68,2,0.88,1,92.7,4.0,N,Y,75.9,5.0,,N,Y,Y,5.7,,,,,,,0.0,20.7,59,30.5,5/9,HIGH
-CUMMINSIND,Nifty Capital Goods,,,,,,,,,,197.0,Y,-1.07,4.92,,Nifty Capital Goods,33,Lagging,0.0,0.84,0,1.0,2,54.5,0.0,N,,48.4,0.0,,N,Y,Y,5.7,Double Bottom,6100.0,N,N,,,8.2,13.9,51,19.6,5/9,MED
-SCHAEFFLER,Nifty Capital Goods,,,,,,,,,,20.3,Y,-0.68,-1.5,,Nifty Capital Goods,33,Lagging,0.0,2.91,4,1.24,3,68.5,7.0,N,,33.5,0.0,,N,Y,Y,5.7,Double Bottom,4429.0,Y,N,,,12.3,25.0,51,39.2,5/9,MED
+IPCALAB,Nifty Pharma,,,,,,,,,,29.5,Y,1.65,13.36,,Nifty Pharma,2,Leading,6.0,0.53,0,0.98,0,17.3,0.0,N,N,65.7,0.0,,N,Y,N,2.9,,,,,,,0.0,8.9,59,13.6,5/9,HIGH
+TORNTPHARM,Nifty Pharma,,,,,,,,,,378.3,Y,9.9,19.83,,Nifty Pharma,2,Leading,6.0,1.68,2,0.88,1,92.7,4.0,N,Y,75.8,5.0,,N,Y,Y,5.7,,,,,,,0.0,20.7,59,30.5,5/9,HIGH
+CUMMINSIND,Nifty Capital Goods,,,,,,,,,,197.0,Y,-1.07,4.92,,Nifty Capital Goods,33,Lagging,0.0,0.84,0,1.0,2,54.5,0.0,N,,48.5,0.0,,N,Y,Y,5.7,Double Bottom,6100.0,N,N,,,8.2,13.9,51,19.6,5/9,MED
+SCHAEFFLER,Nifty Capital Goods,,,,,,,,,,20.3,Y,-0.68,-1.5,,Nifty Capital Goods,33,Lagging,0.0,2.91,4,1.24,3,68.5,7.0,N,,33.8,0.0,,N,Y,Y,5.7,Double Bottom,4429.0,Y,N,,,12.3,25.0,51,39.2,5/9,MED
 TIMKEN,Nifty Capital Goods,,,,,,,,,,10.3,N,-9.98,-7.86,,Nifty Capital Goods,33,Lagging,0.0,1.54,2,1.18,1,70.4,2.0,N,,17.9,0.0,,Y,Y,N,7.1,,,,,,,0.0,9.1,55,12.7,5/9,HIGH
 AIAENG,Nifty Capital Goods,,,,,,,,,,22.4,Y,-4.35,18.43,,Nifty Capital Goods,33,Lagging,0.0,1.96,2,1.02,1,76.4,4.0,N,,73.6,0.0,,Y,Y,Y,10.0,,,,,,,0.0,14.0,55,20.0,5/9,HIGH
-ELGIEQUIP,Nifty Capital Goods,,,,,,,,,,12.5,N,-4.1,4.96,,Nifty Capital Goods,33,Lagging,0.0,0.76,0,1.12,0,43.4,0.0,N,,48.6,0.0,,Y,Y,Y,10.0,Trendline/Resistance Breakout,633.85,N,N,,,8.2,18.2,51,25.5,5/9,MED
+ELGIEQUIP,Nifty Capital Goods,,,,,,,,,,12.5,N,-4.1,4.96,,Nifty Capital Goods,33,Lagging,0.0,0.76,0,1.12,0,43.4,0.0,N,,48.7,0.0,,Y,Y,Y,10.0,Trendline/Resistance Breakout,633.85,N,N,,,8.2,18.2,51,25.5,5/9,MED
 NMDC,Nifty Metal,,,,,,,,,,121.7,Y,-0.62,-4.27,,Nifty Metal,28,Improving,0.0,0.79,0,1.1,1,38.5,0.0,N,N,26.6,0.0,,Y,Y,Y,10.0,,,,,,,0.0,10.0,59,11.9,5/9,HIGH
 JINDALSTEL,Nifty Metal,,,,,,,,,,115.7,Y,5.61,-12.59,,Nifty Metal,28,Improving,0.0,0.65,0,1.01,2,43.1,0.0,N,Y,9.6,5.0,,N,Y,Y,5.7,Trendline/Resistance Breakout,1259.0,N,N,,,8.2,18.9,55,25.5,5/9,HIGH
 WELCORP,Nifty Metal,,,,,,,,,,153.3,Y,10.13,31.63,,Nifty Metal,28,Improving,0.0,0.26,0,1.16,0,21.5,0.0,N,Y,86.9,8.8,,N,N,Y,2.9,,,,,,,0.0,11.6,59,15.3,5/9,HIGH
-RATNAMANI,Nifty Metal,,,,,,,,,,6.1,N,-5.06,-13.97,,Nifty Metal,28,Improving,0.0,0.52,0,1.09,1,6.7,0.0,N,N,8.3,0.0,,Y,N,N,4.3,Double Bottom,2848.0,N,N,,,8.2,12.5,55,16.4,5/9,HIGH
+RATNAMANI,Nifty Metal,,,,,,,,,,6.1,N,-5.06,-13.97,,Nifty Metal,28,Improving,0.0,0.52,0,1.09,1,6.7,0.0,N,N,8.4,0.0,,Y,N,N,4.3,Double Bottom,2848.0,N,N,,,8.2,12.5,55,16.4,5/9,HIGH
 MOIL,Nifty Metal,,,,,,,,,,7.8,N,1.43,-9.06,,Nifty Metal,28,Improving,0.0,1.02,0,0.76,3,9.8,3.0,N,N,15.6,0.0,,N,N,N,0.0,,,,,,,0.0,3.0,59,5.1,5/9,HIGH
-JKCEMENT,Nifty Cement,,,,,,,,,,25.5,Y,-1.58,2.98,,Nifty Cement,22,Weakening,0.0,0.92,0,0.97,0,29.0,0.0,N,Y,43.1,5.0,,N,Y,N,2.9,Trendline/Resistance Breakout,5790.0,N,N,,,8.2,16.0,55,21.8,5/9,HIGH
-BIRLACORPN,Nifty Cement,,,,,,,,,,7.9,N,-9.25,-6.48,,Nifty Cement,22,Weakening,0.0,0.62,0,1.01,2,31.9,0.0,N,N,20.7,0.0,,N,N,N,0.0,Trendline/Resistance Breakout,1054.1,N,N,,,8.2,8.2,55,10.9,5/9,HIGH
-INDIACEM,Nifty Cement,,,,,,,,,,8.4,N,3.98,0.56,,Nifty Cement,22,Weakening,0.0,0.26,0,1.21,0,41.7,0.0,N,Y,38.1,5.0,,Y,Y,Y,10.0,,,,,,,0.0,15.0,59,18.6,5/9,HIGH
-RAMCOCEM,Nifty Cement,,,,,,,,,,6.8,N,-2.64,0.4,,Nifty Cement,22,Weakening,0.0,0.41,0,1.12,2,67.6,0.0,N,N,37.9,0.0,,Y,Y,Y,10.0,Trendline/Resistance Breakout,962.35,N,N,,,8.2,18.2,55,23.6,5/9,HIGH
-HEIDELBERG,Nifty Cement,,,,,,,,,,1.1,N,-0.96,-6.62,,Nifty Cement,22,Weakening,0.0,0.47,0,1.27,1,22.4,0.0,N,N,20.6,0.0,,N,Y,Y,5.7,Trendline/Resistance Breakout,166.0,N,N,,,8.2,13.9,55,18.2,5/9,HIGH
+JKCEMENT,Nifty Cement,,,,,,,,,,25.5,Y,-1.58,2.98,,Nifty Cement,22,Weakening,0.0,0.92,0,0.97,0,29.0,0.0,N,Y,43.3,5.0,,N,Y,N,2.9,Trendline/Resistance Breakout,5790.0,N,N,,,8.2,16.0,55,21.8,5/9,HIGH
+BIRLACORPN,Nifty Cement,,,,,,,,,,7.9,N,-9.25,-6.48,,Nifty Cement,22,Weakening,0.0,0.62,0,1.01,2,31.9,0.0,N,N,20.8,0.0,,N,N,N,0.0,Trendline/Resistance Breakout,1054.1,N,N,,,8.2,8.2,55,10.9,5/9,HIGH
+INDIACEM,Nifty Cement,,,,,,,,,,8.4,N,3.98,0.56,,Nifty Cement,22,Weakening,0.0,0.26,0,1.21,0,41.7,0.0,N,Y,38.4,5.0,,Y,Y,Y,10.0,,,,,,,0.0,15.0,59,18.6,5/9,HIGH
+RAMCOCEM,Nifty Cement,,,,,,,,,,6.8,N,-2.64,0.4,,Nifty Cement,22,Weakening,0.0,0.41,0,1.12,2,67.6,0.0,N,N,38.2,0.0,,Y,Y,Y,10.0,Trendline/Resistance Breakout,962.35,N,N,,,8.2,18.2,55,23.6,5/9,HIGH
+HEIDELBERG,Nifty Cement,,,,,,,,,,1.1,N,-0.96,-6.62,,Nifty Cement,22,Weakening,0.0,0.47,0,1.27,1,22.4,0.0,N,N,20.7,0.0,,N,Y,Y,5.7,Trendline/Resistance Breakout,166.0,N,N,,,8.2,13.9,55,18.2,5/9,HIGH
+BHARATFORG,Nifty Auto,,,,,,,,,,155.7,Y,2.37,17.85,,Nifty Auto,8,Leading,7.0,1.29,0,1.06,1,75.0,2.0,N,N,72.7,0.0,,Y,Y,Y,10.0,,,,,,,0.0,19.0,59,27.1,5/9,HIGH
+EXIDEIND,Nifty Auto,,,,,,,,,,210.0,Y,7.26,24.55,,Nifty Auto,8,Leading,7.0,1.05,0,1.11,4,36.6,3.0,N,Y,82.1,8.8,,N,Y,Y,5.7,,,,,,,0.0,24.5,59,35.6,5/9,HIGH
+MOTHERSON,Nifty Auto,,,,,,,,,,205.4,Y,2.14,25.37,,Nifty Auto,8,Leading,7.0,1.53,2,1.04,1,72.4,2.0,N,N,83.0,3.8,,Y,Y,Y,10.0,Double Bottom,155.25,N,N,,,8.2,30.9,55,45.5,5/9,HIGH
+BAJAJ-AUTO,Nifty Auto,,,,,,,,,,412.5,Y,16.88,14.68,,Nifty Auto,8,Leading,7.0,0.43,0,1.11,0,73.3,0.0,N,Y,67.4,5.0,,N,N,Y,2.9,,,,,,,0.0,14.9,59,22.0,5/9,HIGH
+TIINDIA,Nifty Auto,,,,,,,,,,60.0,Y,-10.92,-6.12,,Nifty Auto,8,Leading,7.0,2.0,2,1.19,5,74.4,5.0,N,N,21.9,0.0,,Y,Y,Y,10.0,Double Bottom,3335.2,Y,N,,,12.3,34.3,55,50.9,5/9,HIGH
+EICHERMOT,Nifty Auto,,,,,,,,,,367.8,Y,8.05,7.29,,Nifty Auto,8,Leading,7.0,1.29,0,1.17,2,37.6,0.0,N,N,54.6,0.0,,N,Y,N,2.9,Trendline/Resistance Breakout,7754.0,N,Y,,,10.9,20.8,55,30.9,5/9,HIGH
+M&M,Nifty Auto,,,,,,,,,,732.5,Y,7.03,5.85,,Nifty Auto,8,Leading,7.0,2.53,4,0.92,3,72.6,7.0,Y,Y,50.8,11.2,,N,Y,N,2.9,Trendline/Resistance Breakout,3217.1,Y,Y,,,15.0,43.1,55,65.5,5/9,HIGH
+MINDACORP,Nifty Auto,,,,,,,,,,14.5,N,-1.14,34.68,,Nifty Auto,8,Leading,7.0,1.21,0,0.77,3,21.1,3.0,N,N,89.0,3.8,,Y,Y,N,7.1,,,,,,,0.0,20.9,59,30.5,5/9,HIGH
+HEROMOTOCO,Nifty Auto,,,,,,,,,,330.1,Y,10.66,5.42,,Nifty Auto,8,Leading,7.0,1.12,0,1.1,3,91.0,5.0,Y,Y,49.9,11.2,,N,Y,Y,5.7,,,,,,,0.0,29.0,59,42.4,5/9,HIGH
+HYUNDAI,Nifty Auto,,,,,,,,,,114.2,Y,11.79,19.65,,Nifty Auto,8,Leading,7.0,8.48,6,0.45,2,76.9,8.0,Y,Y,75.1,11.2,,Y,N,N,4.3,,,,,,,0.0,30.5,59,45.8,5/9,HIGH
+LAURUSLABS,Nifty Pharma,,,,,,,,,,298.7,Y,18.86,56.02,,Nifty Pharma,2,Leading,6.0,1.09,0,1.01,5,75.0,5.0,Y,Y,96.8,15.0,,N,N,N,0.0,,,,,,,0.0,26.0,59,39.0,5/9,HIGH
+BRITANNIA,Nifty FMCG,,,,,,,,,,114.4,Y,0.79,-7.16,,Nifty FMCG,35,Lagging,0.0,1.95,2,1.06,4,54.7,5.0,N,Y,19.6,5.0,,Y,Y,N,7.1,Trendline/Resistance Breakout,5529.0,N,N,,,8.2,25.3,55,36.4,5/9,HIGH
+NESTLEIND,Nifty FMCG,,,,,,,,,,268.5,Y,4.38,2.15,,Nifty FMCG,35,Lagging,0.0,1.06,0,1.23,4,38.4,3.0,N,Y,42.4,5.0,,N,Y,Y,5.7,,,,,,,0.0,13.7,59,18.6,5/9,HIGH
+ITC,Nifty FMCG,,,,,,,,,,424.8,Y,-3.07,-9.78,,Nifty FMCG,35,Lagging,0.0,1.08,0,0.91,5,16.5,3.0,N,N,13.7,0.0,,N,Y,N,2.9,,,,,,,0.0,5.9,59,8.5,5/9,HIGH
+DABUR,Nifty FMCG,,,,,,,,,,69.9,Y,-5.72,-8.49,,Nifty FMCG,35,Lagging,0.0,1.3,0,1.13,3,12.6,3.0,N,N,16.8,0.0,,N,Y,N,2.9,Trendline/Resistance Breakout,456.0,N,N,,,8.2,14.0,55,20.0,5/9,HIGH
+UNITDSPR,Nifty FMCG,,,,,,,,,,115.1,Y,10.38,15.22,,Nifty FMCG,35,Lagging,0.0,0.71,0,1.14,3,21.7,3.0,N,Y,68.5,5.0,,N,Y,Y,5.7,,,,,,,0.0,13.7,59,18.6,5/9,HIGH
+HINDUNILVR,Nifty FMCG,,,,,,,,,,380.0,Y,-4.94,-9.71,,Nifty FMCG,35,Lagging,0.0,0.79,0,1.37,3,35.8,3.0,N,N,14.0,0.0,,N,Y,Y,5.7,Trendline/Resistance Breakout,2239.3,N,N,,,8.2,16.9,55,23.6,5/9,HIGH
+RADICO,Nifty FMCG,,,,,,,,,,134.1,Y,9.27,30.01,,Nifty FMCG,35,Lagging,0.0,0.75,0,1.2,4,28.7,3.0,N,Y,86.0,8.8,,N,N,N,0.0,,,,,,,0.0,11.8,59,16.9,5/9,HIGH
+VBL,Nifty FMCG,,,,,,,,,,295.5,Y,-13.38,-13.56,,Nifty FMCG,35,Lagging,0.0,0.97,0,1.17,2,22.0,0.0,N,N,8.9,0.0,,N,N,N,0.0,,,,,,,0.0,0.0,59,0.0,5/9,HIGH
+PATANJALI,Nifty FMCG,,,,,,,,,,138.8,Y,-14.23,-22.44,,Nifty FMCG,35,Lagging,0.0,0.3,0,0.66,1,19.3,0.0,N,N,3.3,0.0,,N,N,N,0.0,Double Bottom,408.75,N,N,,,8.2,8.2,55,10.9,5/9,HIGH
+UBL,Nifty FMCG,,,,,,,,,,17.2,N,4.54,-2.41,,Nifty FMCG,35,Lagging,0.0,0.92,0,1.18,1,15.9,0.0,N,Y,31.3,5.0,,N,Y,Y,5.7,Trendline/Resistance Breakout,1384.0,N,Y,,,10.9,21.6,55,29.1,5/9,HIGH
+KAYNES,Nifty IT,,,,,,,,,,248.4,Y,20.46,-8.78,,Nifty IT,17,Leading,7.0,2.44,4,0.56,3,76.8,9.0,N,Y,15.9,5.0,,N,N,N,0.0,Trendline/Resistance Breakout,3478.4,Y,Y,,,15.0,36.0,55,56.4,5/9,HIGH
+ZENSARTECH,Nifty IT,,,,,,,,,,176.3,Y,8.69,-1.0,,Nifty IT,17,Leading,7.0,0.15,0,1.49,0,21.2,0.0,N,N,34.9,0.0,,N,N,Y,2.9,,,,,,,0.0,9.9,59,15.3,5/9,HIGH
+GRANULES,Nifty Pharma,,,,,,,,,,79.2,Y,-0.13,15.85,,Nifty Pharma,2,Leading,6.0,0.55,0,1.0,0,11.0,0.0,N,N,69.7,0.0,,N,Y,N,2.9,,,,,,,0.0,8.9,59,13.6,5/9,HIGH
+AARTIDRUGS,Nifty Pharma,,,,,,,,,,7.6,N,9.96,8.02,,Nifty Pharma,2,Leading,6.0,0.88,0,1.12,0,70.7,0.0,N,Y,56.0,5.0,,N,N,Y,2.9,,,,,,,0.0,13.9,59,20.3,5/9,HIGH
+ELECON,Nifty Capital Goods,,,,,,,,,,19.1,N,-22.47,-20.81,,Nifty Capital Goods,33,Lagging,0.0,0.46,0,1.07,1,37.2,0.0,N,,3.7,0.0,,N,N,Y,2.9,,,,,,,0.0,2.9,55,3.6,5/9,HIGH
+KALPATARU,Nifty Capital Goods,,,,,,,,,,1.8,N,-2.52,-7.86,,Nifty Capital Goods,33,Lagging,0.0,0.25,0,0.96,3,66.1,3.0,N,,18.0,0.0,,N,N,N,0.0,,,,,,,0.0,3.0,55,5.5,5/9,HIGH
+VOLTAMP,Nifty Capital Goods,,,,,,,,,,20.2,Y,0.67,-1.58,,Nifty Capital Goods,33,Lagging,0.0,24.81,6,0.4,3,48.4,9.0,N,,33.6,0.0,,N,N,Y,2.9,Double Bottom,11144.0,Y,N,,,12.3,24.1,51,39.2,5/9,MED
+TDPOWERSYS,Nifty Capital Goods,,,,,,,,,,87.1,Y,-5.04,-3.89,,Nifty Capital Goods,33,Lagging,0.0,2.01,2,0.86,3,68.2,5.0,N,,28.0,0.0,,N,N,N,0.0,Trendline/Resistance Breakout,1379.6,Y,N,,,12.3,17.3,51,27.5,5/9,MED
+PRESTIGE,Nifty Realty,,,,,,,,,,132.0,Y,-3.46,12.85,,Nifty Realty,4,Leading,6.0,0.8,0,1.08,2,79.2,2.0,N,N,65.1,0.0,,N,Y,N,2.9,Trendline/Resistance Breakout,1741.5,N,N,,,8.2,19.0,55,29.1,5/9,HIGH
+MAHLIFE,Nifty Realty,,,,,,,,,,6.4,N,5.49,19.98,,Nifty Realty,4,Leading,6.0,0.42,0,0.98,1,87.5,2.0,Y,Y,76.2,11.2,,N,Y,Y,5.7,,,,,,,0.0,25.0,59,35.6,5/9,HIGH
+PURVA,Nifty Realty,,,,,,,,,,3.1,N,-2.05,-3.62,,Nifty Realty,4,Leading,6.0,0.22,0,1.36,0,39.6,0.0,N,N,28.7,0.0,,N,N,Y,2.9,,,,,,,0.0,8.9,59,13.6,5/9,HIGH
+WELSPUNLIV,Nifty FMCG,,,,,,,,,,22.5,Y,-6.53,19.78,,Nifty FMCG,35,Lagging,0.0,0.82,0,1.31,0,13.5,0.0,N,N,75.5,0.0,,Y,Y,Y,10.0,,,,,,,0.0,10.0,59,11.9,5/9,HIGH
+NATIONALUM,Nifty Metal,,,,,,,,,,215.6,Y,5.36,-15.37,,Nifty Metal,28,Improving,0.0,1.05,0,0.94,1,29.6,0.0,N,N,7.0,0.0,,Y,Y,N,7.1,,,,,,,0.0,7.1,59,8.5,5/9,HIGH
+HINDCOPPER,Nifty Metal,,,,,,,,,,114.5,Y,-0.68,-7.6,,Nifty Metal,28,Improving,0.0,2.58,4,0.93,1,55.0,4.0,N,N,18.7,0.0,,Y,Y,Y,10.0,,,,,,,0.0,14.0,59,18.6,5/9,HIGH
+TATASTEEL,Nifty Metal,,,,,,,,,,376.5,Y,1.08,-10.24,,Nifty Metal,28,Improving,0.0,1.66,2,0.99,2,61.1,2.0,N,N,12.8,0.0,,Y,Y,N,7.1,,,,,,,0.0,9.1,59,11.9,5/9,HIGH
+SBIN,Nifty PSU Bank,,,,,,,,,,957.3,Y,-2.3,-3.07,,Nifty PSU Bank,29,Lagging,0.0,1.09,0,1.23,1,36.1,0.0,N,N,29.6,0.0,,Y,Y,Y,10.0,Trendline/Resistance Breakout,1067.0,N,N,,,8.2,18.2,55,23.6,5/9,HIGH
+BANKBARODA,Nifty PSU Bank,,,,,,,,,,235.6,Y,-6.78,-7.9,,Nifty PSU Bank,29,Lagging,0.0,0.62,0,1.24,1,20.8,0.0,N,N,17.7,0.0,,N,Y,N,2.9,,,,,,,0.0,2.9,59,3.4,5/9,HIGH
+PNB,Nifty PSU Bank,,,,,,,,,,133.6,Y,5.43,4.47,,Nifty PSU Bank,29,Lagging,0.0,0.55,0,1.2,0,77.9,2.0,N,Y,46.9,5.0,,N,Y,Y,5.7,,,,,,,0.0,12.7,59,16.9,5/9,HIGH
+CANBK,Nifty PSU Bank,,,,,,,,,,243.8,Y,-1.31,-6.95,,Nifty PSU Bank,29,Lagging,0.0,0.53,0,1.2,2,61.3,0.0,N,N,20.0,0.0,,N,Y,N,2.9,Trendline/Resistance Breakout,138.26,N,N,,,8.2,11.0,55,14.5,5/9,HIGH
