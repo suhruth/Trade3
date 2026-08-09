@@ -1,42 +1,42 @@
 sector,rank,ret_1m_pct,ret_3m_pct,ret_6m_pct,rp_1m,rp_3m,rp_6m,rp_score,rs_mom_20d,pct_off_6m_high,accel,quadrant,stage2_pts
-Nifty MidSmall Healthcare,1,2.95,15.08,24.53,2.09,13.47,27.19,4,1.21,0.8,N,Leading,6
-Nifty Pharma,2,4.84,14.04,22.15,3.98,12.43,24.81,4,2.59,0.0,Y,Leading,6
-Nifty500 Healthcare,3,3.0,13.79,21.99,2.14,12.18,24.65,4,1.11,0.0,N,Leading,6
-Nifty Realty,4,3.41,13.6,19.18,2.55,11.99,21.84,4,0.73,4.0,N,Leading,6
-Nifty MidSmall IT & Telecom,5,5.27,13.47,-0.45,4.41,11.86,2.21,4,3.67,3.4,Y,Leading,10
-Nifty Healthcare,6,3.74,12.31,20.05,2.88,10.7,22.71,4,1.44,0.0,N,Leading,3
-Nifty Media,7,6.55,11.17,19.76,5.69,9.56,22.42,3,6.54,0.0,Y,Leading,7
-Nifty Auto,8,6.03,10.91,7.24,5.17,9.3,9.9,3,6.01,0.0,Y,Leading,7
-Nifty REITs & Realty,9,1.82,8.46,,0.96,6.85,,3,0.58,1.5,N,Leading,3
-Nifty Consumer Durables,10,8.4,7.51,17.32,7.54,5.9,19.98,3,8.29,0.4,Y,Leading,7
-Nifty Financial Services Ex Bank,11,1.87,6.27,7.55,1.01,4.66,10.21,2,1.23,0.0,N,Leading,3
-Nifty Consumption,12,2.67,5.82,4.76,1.81,4.21,7.42,2,1.95,0.0,Y,Leading,3
-Nifty Chemicals,13,0.76,5.67,10.13,-0.1,4.06,12.79,2,-0.25,2.7,N,Weakening,0
-Nifty NBFC,14,4.54,,,3.68,,,,3.29,0.0,,Leading,3
-Nifty MidSmall Financial Services,15,-0.43,5.11,10.44,-1.29,3.5,13.1,2,-0.73,1.9,N,Weakening,0
-Nifty Private Bank,16,-2.46,4.72,-1.71,-3.32,3.11,0.95,2,-2.91,5.7,N,Weakening,0
-Nifty IT,17,13.88,4.62,-19.69,13.02,3.01,-17.03,2,11.4,20.7,Y,Leading,7
-Nifty Bank,18,-1.32,4.38,-2.07,-2.18,2.77,0.59,2,-1.62,7.0,N,Weakening,0
-Nifty Financial Services 25/50,19,-0.38,3.92,-0.79,-1.24,2.31,1.87,2,-1.02,6.2,N,Weakening,0
-Nifty Fin Service,20,-1.0,3.65,-0.85,-1.86,2.04,1.81,2,-1.5,6.6,N,Weakening,0
-Nifty Serv Sector,21,1.12,3.37,-4.4,0.26,1.76,-1.74,2,0.15,7.3,N,Leading,3
-Nifty Cement,22,0.27,2.54,,-0.59,0.93,,2,-1.52,8.3,N,Weakening,0
-Nifty Retail,23,0.9,,,0.04,,,,0.92,0.9,,Leading,3
-Nifty Consumer Services,24,0.82,,,-0.04,,,,0.54,0.9,,Improving,3
-Nifty Hospitals,25,0.34,,,-0.52,,,,-1.34,0.9,,Lagging,0
-Nifty Infra,26,-0.49,-0.11,5.41,-1.35,-1.72,8.07,1,-1.14,3.3,N,Lagging,0
-Nifty Telecommunications,27,-1.56,,,-2.42,,,,-2.61,5.6,,Lagging,0
-Nifty Metal,28,1.72,-0.89,10.81,0.86,-2.5,13.47,1,0.49,7.3,Y,Improving,0
-Nifty PSU Bank,29,-2.02,-1.36,-4.71,-2.88,-2.97,-2.05,1,-0.94,15.3,N,Lagging,0
-Nifty Insurance,30,-2.26,,,-3.12,,,,-2.32,5.2,,Lagging,0
-Nifty Commercial & Transport Services,31,-2.46,,,-3.32,,,,-3.15,2.8,,Lagging,0
-Nifty Power,32,-2.73,,,-3.59,,,,-2.65,4.8,,Lagging,0
-Nifty Capital Goods,33,-3.62,,,-4.48,,,,-2.06,6.4,,Lagging,0
-Nifty Commodities,34,0.02,-3.68,5.66,-0.84,-5.29,8.32,1,-0.74,6.1,Y,Lagging,0
-Nifty FMCG,35,-1.92,-3.82,-4.92,-2.78,-5.43,-2.26,1,-2.4,6.3,N,Lagging,0
-Nifty Oil & Gas,36,1.03,-3.82,-0.52,0.17,-5.43,2.14,1,0.53,8.9,Y,Improving,0
-Nifty Housing Finance,37,-4.74,,,-5.6,,,,-6.15,6.3,,Lagging,0
-Nifty Energy,38,-2.46,-5.01,17.01,-3.32,-6.62,19.67,1,-1.6,6.8,N,Lagging,0
-Nifty Construction,39,-6.18,,,-7.04,,,,-6.15,8.9,,Lagging,0
-Nifty PSE,40,-0.97,-6.46,3.41,-1.83,-8.07,6.07,1,-1.16,7.7,Y,Lagging,0
-Nifty CPSE,41,-2.84,-12.42,2.08,-3.7,-14.03,4.74,1,-3.4,13.0,Y,Lagging,0
+Nifty MidSmall IT & Telecom,1,6.0,15.63,0.85,4.76,13.76,3.25,4,5.36,1.7,Y,Leading,10
+Nifty MidSmall Healthcare,2,3.43,14.81,27.3,2.19,12.94,29.7,4,2.72,0.0,N,Leading,6
+Nifty Auto,3,9.86,13.91,11.65,8.62,12.04,14.05,4,7.77,0.0,Y,Leading,10
+Nifty Pharma,4,3.09,13.06,21.82,1.85,11.19,24.22,4,2.03,0.0,N,Leading,6
+Nifty500 Healthcare,5,2.1,12.68,22.86,0.86,10.81,25.26,4,1.41,0.0,N,Leading,6
+Nifty Healthcare,6,1.63,10.86,19.76,0.39,8.99,22.16,3,0.8,0.3,N,Leading,3
+Nifty Realty,7,-0.54,9.01,16.66,-1.78,7.14,19.06,3,-2.87,5.6,N,Weakening,0
+Nifty IT,8,14.97,8.5,-18.2,13.73,6.63,-15.8,3,15.0,18.5,Y,Leading,7
+Nifty Media,9,2.82,7.38,16.73,1.58,5.51,19.13,3,3.21,3.9,Y,Leading,3
+Nifty Consumer Durables,10,8.85,7.16,18.07,7.61,5.29,20.47,3,6.65,0.4,Y,Leading,7
+Nifty REITs & Realty,11,0.68,6.78,,-0.56,4.91,,2,-0.96,1.8,N,Weakening,0
+Nifty Chemicals,12,1.85,6.6,12.17,0.61,4.73,14.57,2,0.62,1.2,N,Leading,3
+Nifty Consumption,13,3.41,6.58,6.58,2.17,4.71,8.98,2,2.14,0.0,Y,Leading,3
+Nifty Bank,14,-0.33,5.23,-2.46,-1.57,3.36,-0.06,2,-1.5,6.2,N,Weakening,0
+Nifty NBFC,15,4.05,,,2.81,,,,2.36,0.0,,Leading,3
+Nifty MidSmall Financial Services,16,-0.35,4.6,9.29,-1.59,2.73,11.69,2,-1.15,2.0,N,Weakening,0
+Nifty Private Bank,17,-2.92,4.36,-3.15,-4.16,2.49,-0.75,2,-3.92,6.2,N,Weakening,0
+Nifty PSU Bank,18,4.5,3.91,-1.67,3.26,2.04,0.73,2,4.82,11.1,Y,Leading,3
+Nifty Financial Services Ex Bank,19,0.53,3.82,5.95,-0.71,1.95,8.35,2,0.13,1.2,N,Leading,3
+Nifty Consumer Services,20,3.17,,,1.93,,,,1.99,0.0,,Leading,3
+Nifty Retail,21,2.66,,,1.42,,,,1.66,0.0,,Leading,3
+Nifty Serv Sector,22,0.61,3.28,-5.14,-0.63,1.41,-2.74,2,-0.52,7.3,N,Weakening,0
+Nifty Cement,23,0.47,2.71,,-0.77,0.84,,2,0.1,6.9,N,Leading,3
+Nifty Fin Service,24,-1.52,2.52,-2.19,-2.76,0.65,0.21,2,-2.52,7.0,N,Weakening,0
+Nifty Financial Services 25/50,25,-1.09,2.51,-2.25,-2.33,0.64,0.15,2,-2.33,6.7,N,Weakening,0
+Nifty Capital Goods,26,1.64,,,0.4,,,,-0.08,3.3,,Weakening,0
+Nifty Metal,27,4.69,1.67,11.5,3.45,-0.2,13.9,1,3.08,3.9,Y,Improving,7
+Nifty Infra,28,0.32,0.35,5.79,-0.92,-1.52,8.19,1,-0.74,2.4,Y,Lagging,0
+Nifty Hospitals,29,-0.56,,,-1.8,,,,-0.49,0.6,,Lagging,0
+Nifty Commercial & Transport Services,30,-1.35,,,-2.59,,,,-2.03,1.5,,Lagging,0
+Nifty Telecommunications,31,-1.53,,,-2.77,,,,-2.67,5.0,,Lagging,0
+Nifty Insurance,32,-3.05,,,-4.29,,,,-3.39,6.4,,Lagging,0
+Nifty Power,33,-3.52,,,-4.76,,,,-3.89,6.1,,Lagging,0
+Nifty Commodities,34,1.03,-3.19,5.26,-0.21,-5.06,7.66,1,-0.14,4.9,Y,Lagging,0
+Nifty Construction,35,-4.13,,,-5.37,,,,-4.68,7.4,,Lagging,0
+Nifty FMCG,36,-1.32,-3.57,-3.73,-2.56,-5.44,-1.33,1,-2.08,5.7,N,Lagging,0
+Nifty Oil & Gas,37,1.58,-3.59,-0.57,0.34,-5.46,1.83,1,-0.12,8.4,Y,Lagging,0
+Nifty Housing Finance,38,-4.66,,,-5.9,,,,-5.42,5.3,,Lagging,0
+Nifty Energy,39,-1.09,-5.42,16.39,-2.33,-7.29,18.79,1,-2.41,6.7,Y,Lagging,0
+Nifty PSE,40,-0.89,-7.09,1.97,-2.13,-8.96,4.37,1,-1.63,7.8,Y,Lagging,0
+Nifty CPSE,41,-3.63,-12.78,0.16,-4.87,-14.65,2.56,1,-4.37,13.6,Y,Lagging,0

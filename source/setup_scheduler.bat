@@ -19,7 +19,13 @@ if errorlevel 1 (
     echo.
     echo Failed to create the task. Try running this from a normal terminal.
 ) else (
+    REM schtasks /Create has no flag for "run as soon as possible after a
+    REM missed start" (StartWhenAvailable) -- without it, a trigger missed
+    REM because the machine was off/logged-out at the scheduled time is
+    REM just skipped, silently, until the next scheduled time. Enable it
+    REM via PowerShell so a missed evening run fires as soon as you log on.
+    powershell -NoProfile -Command "$s = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 72); Set-ScheduledTask -TaskName '%TASK%' -Settings $s | Out-Null"
     echo.
-    echo Task "%TASK%" registered to run daily at %STARTTIME% ^(only while logged on^).
+    echo Task "%TASK%" registered to run daily at %STARTTIME% ^(while logged on; catches up automatically if the machine was off/logged-out at that time^).
     schtasks /Query /TN "%TASK%"
 )

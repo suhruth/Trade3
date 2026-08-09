@@ -47,10 +47,17 @@ existing task (`/F`) rather than erroring on a duplicate.
 > **Note on the task itself:** it's created as "run only while logged
 > on" (the default for a plain `schtasks /Create /SC DAILY`), not as a
 > background/service task. If the machine is locked out, sleeping, or
-> shut down at 19:30, that night's run is skipped — there's no catch-up
-> run built in. `archive_indices.py` is backfillable later
+> shut down at 19:30, that night's trigger is missed — but
+> `setup_scheduler.bat` also enables **"run as soon as possible after a
+> scheduled start is missed"** (`StartWhenAvailable`, set via a
+> PowerShell `Set-ScheduledTask` call plain `schtasks` can't express), so
+> the job fires automatically the next time you log on instead of
+> silently waiting for the next 19:30. This was *not* the case before
+> August 2026 — a gap from 2026-08-01 to 2026-08-06 slipped through
+> during a folder move because the setting defaulted off; see
+> Troubleshooting below. `archive_indices.py` is backfillable later
 > (`--from <date>`); the security bhavcopy is not, so a missed day's
-> delivery/breadth data is gone for good.
+> delivery/breadth data is gone for good regardless of catch-up.
 
 ## What happens automatically every night
 
@@ -145,10 +152,20 @@ It was never registered on this machine, or was deleted. Run
 `setup_scheduler.bat` (see First-time setup).
 
 **Nothing appears in `logs\archiver.log` after the scheduled time.**
-The task probably didn't fire because the machine wasn't logged in at
-19:30 (see the "run only while logged on" note above), or the task is
-disabled — check with `schtasks /Query /TN "NSE Bhavcopy Archiver" /V /FO LIST`
-and look at `Scheduled Task State`.
+If `StartWhenAvailable` is on (the default since August 2026, see above),
+a missed 19:30 trigger should self-correct at next logon — give it a
+minute after logging in. If it still doesn't fire: check
+`schtasks /Query /TN "NSE Bhavcopy Archiver" /V /FO LIST` for
+`Scheduled Task State: Disabled`, or confirm the setting is actually on:
+```
+powershell -Command "(Get-ScheduledTask -TaskName 'NSE Bhavcopy Archiver').Settings.StartWhenAvailable"
+```
+If that prints `False` (e.g. the task was re-created by hand with plain
+`schtasks /Create` instead of `setup_scheduler.bat`), re-run
+`source\setup_scheduler.bat` to restore it, or set it directly:
+```
+powershell -Command "$s = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 72); Set-ScheduledTask -TaskName 'NSE Bhavcopy Archiver' -Settings $s"
+```
 
 **The log shows `python`/`py` errors, or nothing after `[new_month]`.**
 Python isn't installed or isn't on PATH for the account Task Scheduler

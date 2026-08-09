@@ -1,31 +1,31 @@
 symbol,score_100,stage5_pts,stage6_pts,stage7_pts,stage8_pts,pattern,stages_covered,score_conf,rvol,deliv_surge,mom_pctile
-NAZARA,73.2,11,15,0,15,Trendline/Resistance Breakout,04-Sep,LOW,9.15,0.64,85.3
-ESCORTS,70.7,11,0,10,15,Trendline/Resistance Breakout,04-Sep,LOW,3.39,0.76,28.4
-REDINGTON,69.8,9,15,0,15,Trendline/Resistance Breakout,04-Sep,MED,4.7,0.42,93.3
-FSL,63.4,7,15,0,15,Double Bottom,04-Sep,LOW,1.53,0.97,90.7
-EMCURE,61,5,9.4,10,10.9,Trendline/Resistance Breakout,04-Sep,LOW,1.95,0.88,69.9
-BAJAJFINSV,58.5,6,9.4,2.9,15,Trendline/Resistance Breakout,04-Sep,LOW,3,0.53,65.5
-JBCHEPHARM,57.9,9,0,2.9,15,Trendline/Resistance Breakout,04-Sep,LOW,11.79,1.08,
-ADANIPORTS,53.7,9,0,5.7,12.3,Trendline/Resistance Breakout,04-Sep,LOW,2.51,1.28,33.3
-JIOFIN,53.7,4,9.4,2.9,15,Trendline/Resistance Breakout,04-Sep,LOW,2.07,1.07,43.8
-TFCILTD,53.7,3,15,0,15,Double Bottom,04-Sep,LOW,0.99,1.1,88.4
-PINELABS,53.7,11,0,7.1,8.2,Trendline/Resistance Breakout,04-Sep,LOW,2.68,1.75,1.2
-RPTECH,53.5,2,15,4.3,11.5,Trendline/Resistance Breakout,04-Sep,MED,0.72,1.06,98.4
-RKFORGE,51.2,5,9.4,0,15,Trendline/Resistance Breakout,04-Sep,LOW,1.04,0.85,49.4
-STALLION,51.2,2,15,0,15,Double Bottom,04-Sep,LOW,0.99,0.74,98.1
-SEDEMAC,51.2,5,5.6,10,8.2,Trendline/Resistance Breakout,04-Sep,LOW,1.66,0.8,90.2
-JPPOWER,48.8,6,0,7.1,12.3,Double Bottom,04-Sep,LOW,4.99,0.77,25
-LICHSGFIN,48.8,9,0,2.9,12.3,Trendline/Resistance Breakout,04-Sep,LOW,3.9,0.72,21.2
-AEGISLOG,48.8,6,5.6,7.1,8.2,High Tight Flag,04-Sep,LOW,0.4,1.53,99.6
-BHARTIARTL,48.8,5,0,10,10.9,Trendline/Resistance Breakout,04-Sep,LOW,1.1,1.13,58.8
-INTELLECT,48.8,11,0,0,12.3,Trendline/Resistance Breakout,04-Sep,LOW,3.9,0.43,26.4
-KTKBANK,46.5,5,0,2.9,15,Trendline/Resistance Breakout,04-Sep,MED,1.63,0.77,50.4
-ARE&M,46.3,6,0,5.7,12.3,Double Bottom,04-Sep,LOW,1.89,1.72,42.7
-HFCL,46.3,5,5.6,7.1,8.2,Trendline/Resistance Breakout,04-Sep,LOW,1.31,1.11,95.3
-CHOLAFIN,43.9,7,0,2.9,12.3,Flat Base,04-Sep,LOW,1.92,0.93,62.7
-PFC,43.9,5,0,5.7,12.3,Trendline/Resistance Breakout,04-Sep,LOW,1.9,1.14,19.8
-JSLL,43.9,5,0,10,8.2,Flat Base,04-Sep,LOW,1.5,1.04,4.2
-SONATSOFTW,43.9,2,15,0,10.9,Double Bottom,04-Sep,LOW,0.66,1.07,81.3
-MAZDOCK,43.9,4,0,7.1,12.3,Trendline/Resistance Breakout,04-Sep,LOW,2.44,0.73,14.7
-GRWRHITECH,43.9,2,5.6,10,8.2,Trendline/Resistance Breakout,04-Sep,LOW,0.9,1.35,97.4
-NAVINFLUOR,43.9,5,0,10,8.2,Trendline/Resistance Breakout,04-Sep,LOW,1.55,0.9,56.2
+NAVINFLUOR,73.2,9.0,9.4,7.1,15.0,Trendline/Resistance Breakout,4/9,LOW,4.86,0.6,72.8
+RHETAN,73.2,9.0,15.0,2.9,15.0,Double Bottom,4/9,LOW,1.49,1.86,84.5
+ASTERDM,73.2,9.0,9.4,7.1,15.0,Trendline/Resistance Breakout,4/9,LOW,2.14,0.91,76.0
+TATATECH,73.2,11.0,15.0,0.0,15.0,Trendline/Resistance Breakout,4/9,LOW,15.08,0.54,90.3
+GRASIM,65.9,6.0,9.4,7.1,15.0,Trendline/Resistance Breakout,4/9,LOW,2.11,0.79,68.6
+LLOYDSENGG,65.9,8.0,15.0,0.0,15.0,Double Bottom,4/9,LOW,5.21,0.66,97.5
+TFCILTD,63.4,7.0,15.0,0.0,15.0,Double Bottom,4/9,LOW,1.61,0.96,92.9
+GRWRHITECH,61.0,6.0,5.6,10.0,12.3,Trendline/Resistance Breakout,4/9,LOW,3.63,0.82,89.6
+JBCHEPHARM,57.9,9.0,0.0,2.9,15.0,Trendline/Resistance Breakout,4/9,LOW,11.79,1.08,
+GLAND,56.1,0.0,15.0,10.0,10.9,Trendline/Resistance Breakout,4/9,LOW,0.65,1.13,92.1
+KTKBANK,56.1,7.0,9.4,0.0,15.0,Trendline/Resistance Breakout,4/9,LOW,1.97,1.13,71.6
+EMCURE,55.8,2.0,9.4,10.0,11.5,Trendline/Resistance Breakout,4/9,MED,0.99,0.99,76.4
+ESCORTS,51.2,5.0,0.0,10.0,11.5,Trendline/Resistance Breakout,4/9,MED,0.58,0.99,19.9
+REDINGTON,51.2,5.0,15.0,0.0,10.9,Trendline/Resistance Breakout,4/9,LOW,0.51,0.91,96.6
+LLOYDSME,48.8,5.0,9.4,2.9,10.9,Double Bottom,4/9,LOW,1.03,1.1,76.2
+ASHAPURMIN,48.8,9.0,0.0,7.1,8.2,Double Bottom,4/9,LOW,2.11,1.17,64.9
+NAZARA,48.8,3.0,15.0,0.0,11.5,Trendline/Resistance Breakout,4/9,MED,0.73,1.09,85.9
+OMAXAUTO,47.4,9.0,,0.0,,,2/9,LOW,1.98,0.98,
+BAJAJFINSV,46.5,5.0,0.0,2.9,15.0,Trendline/Resistance Breakout,4/9,MED,1.82,1.02,59.1
+FORTIS,46.3,8.0,0.0,2.9,12.3,Trendline/Resistance Breakout,4/9,LOW,3.44,0.76,36.2
+BEML,46.3,8.0,0.0,2.9,12.3,Trendline/Resistance Breakout,4/9,LOW,6.61,0.43,22.8
+RPTECH,46.3,0.0,15.0,4.3,10.9,Trendline/Resistance Breakout,4/9,LOW,1.01,0.96,98.8
+PREMEXPLN,46.3,8.0,0.0,7.1,8.2,Double Bottom,4/9,LOW,2.18,1.63,68.3
+SAILIFE,44.4,7.0,15.0,7.1,0.0,,4/9,MED,2.5,0.87,84.0
+TATACAP,43.9,7.0,0.0,7.1,8.2,Flat Base,4/9,LOW,2.16,0.92,66.3
+JKTYRE,43.9,4.0,0.0,7.1,12.3,Double Bottom,4/9,LOW,3.09,0.59,25.0
+PIDILITIND,43.9,3.0,9.4,2.9,10.9,Trendline/Resistance Breakout,4/9,LOW,0.9,0.93,72.0
+EXICOM,43.9,4.0,5.6,7.1,8.2,Trendline/Resistance Breakout,4/9,LOW,1.06,1.51,87.5
+ENDURANCE,43.9,0.0,15.0,2.9,10.9,Double Bottom,4/9,LOW,0.56,0.98,81.7
+NEULANDLAB,42.2,9.0,15.0,2.9,0.0,,4/9,MED,9.15,0.53,87.7
